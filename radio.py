@@ -24,7 +24,7 @@ def listStations():
 # Play a stream
 def playStation(stream):
     playing_station = subprocess.Popen(["mplayer", "-playlist", stream, "-cache-min", "99"])
-    pass playing_station
+    return playing_station
 
 
 # Close stream
