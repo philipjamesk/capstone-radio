@@ -12,17 +12,6 @@ station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.
                 Station('triple j', 'http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls'),
                 Station('WUMB', 'http://wumb.streamguys1.com/wumb919fast')]
 
-radio_on = True
-while radio_on:
-    listStations()
-    choice = input('Please select a station or press "q" to quit: ')
-    if choice.lower() == 'q':
-        stopPlaying()
-        radio_on = False
-    elif choice.int() and station_list[choice.int(0)]:
-        print("Nice!")
-
-
 
 # Print list of stations
 def listStations():
@@ -38,5 +27,16 @@ def playStation(stream):
 
 # Close stream
 def stopPlaying():
-    if playing_station:
+    if 'playing_station' in globals():
         playing_station.kill()
+
+
+radio_on = True
+while radio_on:
+    listStations()
+    choice = input('Please select a station or press "q" to quit: ')
+    if choice.lower() == 'q':
+        stopPlaying()
+        radio_on = False
+    elif station_list[int(choice)]:
+        print(station_list[int(choice)].address)
