@@ -14,7 +14,7 @@ station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.
 
 radio_on = True
 while radio_on:
-    listSations()
+    listStations()
     choice = input('Please select a station or press "q" to quit: ')
     if choice.lower() == 'q':
         stopPlaying()
@@ -25,7 +25,7 @@ while radio_on:
 
 
 # Print list of stations
-def listSations():
+def listStations():
     print('Your station choices are:')
     i = 0
     for station in station_list:
