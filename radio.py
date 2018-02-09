@@ -33,7 +33,7 @@ def stopPlaying(playing_station):
 
 listStations()
 choice = input('Please select a station or press "q" to quit: ')
-if choice.lower() == 'q'
+if choice.lower() == 'q':
     sys.exit()
 elif station_list[int(choice)]:
     playing_station = playStation(station_list[int(choice)].address)
