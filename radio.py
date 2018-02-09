@@ -12,6 +12,9 @@ station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.
                 Station('triple j', 'http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls'),
                 Station('WUMB', 'http://wumb.streamguys1.com/wumb919fast')]
 
+# Placeholder subprocess
+playing_station = subprocess.Popen()
+
 
 # Print list of stations
 def listStations():
@@ -27,7 +30,6 @@ def playStation(stream):
 
 # Close stream
 def stopPlaying():
-    if 'playing_station' in globals():
         playing_station.kill()
 
 
@@ -39,4 +41,6 @@ while radio_on:
         stopPlaying()
         radio_on = False
     elif station_list[int(choice)]:
-        print(station_list[int(choice)].address)
+        playing_station.kill()
+        playStation(station_list[int(choice).address])
+        print('You are listening to ' + station_list[int(choice)].address)
