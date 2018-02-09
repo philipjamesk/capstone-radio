@@ -13,7 +13,7 @@ station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.
                 Station('WUMB', 'http://wumb.streamguys1.com/wumb919fast')]
 
 # Placeholder subprocess
-playing_station = subprocess.Popen()
+playing_station = subprocess.Popen("clear")
 
 
 # Print list of stations
