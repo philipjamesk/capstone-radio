@@ -12,9 +12,6 @@ station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.
                 Station('triple j', 'http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls'),
                 Station('WUMB', 'http://wumb.streamguys1.com/wumb919fast')]
 
-# Placeholder subprocess
-playing_station = subprocess.Popen("clear")
-
 
 # Print list of stations
 def listStations():
@@ -26,11 +23,21 @@ def listStations():
 
 # Play a stream
 def playStation(stream):
-    playing_station = subprocess.Popen(["mplayer", "-playlist", stream, "-cache-min", "99"])
+    subprocess.Popen(["mplayer", "-playlist", stream, "-cache-min", "99"])
+    pass subprocess.Popen(["mplayer", "-playlist", stream, "-cache-min", "99"])
+
 
 # Close stream
-def stopPlaying():
-        playing_station.kill()
+def stopPlaying(playing_station):
+    playing_station.kill()
+
+listStations()
+choice = input('Please select a station or press "q" to quit: ')
+if choice.lower() == 'q'
+    sys.exit()
+elif station_list[int(choice)]:
+    playing_station = playStation(station_list[int(choice)].address)
+    print('You are listening to ' + station_list[int(choice)].address)
 
 
 radio_on = True
@@ -38,9 +45,8 @@ while radio_on:
     listStations()
     choice = input('Please select a station or press "q" to quit: ')
     if choice.lower() == 'q':
-        stopPlaying()
+        stopPlaying(playing_station)
         radio_on = False
     elif station_list[int(choice)]:
-        playing_station.kill()
-        playStation(station_list[int(choice).address])
+        playStation(station_list[int(choice)].address)
         print('You are listening to ' + station_list[int(choice)].address)
