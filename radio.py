@@ -1,18 +1,42 @@
+## Pygame is temporarily turned off for this version
+
+# import pygame
 import subprocess
-import datetime # for log file
+from Station import Station
 
-logtime = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-logfile = "~/Documents/Capstone/log" + logtime + ".txt"
+# Initialize Pygame
+# pygame.init()
 
-stream = input("Please enter a stream to play: ")
-stream = "http://media.kcrw.com/pls/kcrwmusic.pls" # to speed things up for now
+# Make a list of stations
+station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.pls'),
+                Station('triple j', 'http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls'),
+                Station('WUMB', 'http://wumb.streamguys1.com/wumb919fast')]
 
-# mplayer -playlist http://www.abc.net.au/res/streaming/audio/mp3/abc_jazz.pls -cache-min 99 -cache 800 > ~/Documents/Capstone/log.txt 2>&1
-p = subprocess.Popen(["mplayer", "-playlist", stream, "-cache-min", "99", "> /Documents/Capstone/log.txt"] )
-#print(logfile)
+radio_on = True
+while radio_on:
+    listSations()
+    choice = input('Please select a station or press "q" to quit: ')
+    if choice.lower() == 'q':
+        stopPlaying()
+        radio_on = False
+    elif choice.int() and station_list[choice.int(0)]:
+        print("Nice!")
 
 
-input("Press any to stop stream")
-p.kill()
 
+# Print list of stations
+def listSations():
+    print('Your station choices are:')
+    i = 0
+    for station in station_list:
+        print(str(i) + ". " + station.name)
+        i = i + 1
 
+# Play a stream
+def playStation(stream):
+    playing_station = subprocess.Popen(["mplayer", "-playlist", stream, "-cache-min", "99"])
+
+# Close stream
+def stopPlaying():
+    if playing_station:
+        playing_station.kill()
