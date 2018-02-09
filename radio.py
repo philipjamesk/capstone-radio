@@ -40,13 +40,16 @@ elif station_list[int(choice)]:
     print('You are listening to ' + station_list[int(choice)].address)
 
 
-radio_on = True
-while radio_on:
-    listStations()
-    choice = input('Please select a station or press "q" to quit: ')
-    if choice.lower() == 'q':
-        stopPlaying(playing_station)
-        radio_on = False
-    elif station_list[int(choice)]:
-        playStation(station_list[int(choice)].address)
-        print('You are listening to ' + station_list[int(choice)].address)
+
+# 
+#
+# radio_on = True
+# while radio_on:
+#     listStations()
+#     choice = input('Please select a station or press "q" to quit: ')
+#     if choice.lower() == 'q':
+#         stopPlaying(playing_station)
+#         radio_on = False
+#     elif station_list[int(choice)]:
+#         playStation(station_list[int(choice)].address)
+#         print('You are listening to ' + station_list[int(choice)].address)
