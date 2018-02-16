@@ -41,8 +41,6 @@ elif station_list[int(choice)]:
 
 
 
-# 
-#
 # radio_on = True
 # while radio_on:
 #     listStations()
