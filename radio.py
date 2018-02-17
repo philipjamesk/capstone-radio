@@ -1,11 +1,14 @@
 ## Pygame is temporarily turned off for this version
 
-# import pygame
+import pygame
 import subprocess
-from Station import Station
+from station import Station
+
+# Building Display right in radio for now.
+# from display import Display
 
 # Initialize Pygame
-# pygame.init()
+pygame.init()
 
 # Make a list of stations
 station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.pls', 'img/logo/eclectic24_logo.png'),
@@ -40,16 +43,3 @@ if choice.lower() == 'q':
 elif station_list[int(choice)]:
     playing_station = playStation(station_list[int(choice)].address)
     print('You are listening to ' + station_list[int(choice)].address)
-
-
-
-# radio_on = True
-# while radio_on:
-#     listStations()
-#     choice = input('Please select a station or press "q" to quit: ')
-#     if choice.lower() == 'q':
-#         stopPlaying(playing_station)
-#         radio_on = False
-#     elif station_list[int(choice)]:
-#         playStation(station_list[int(choice)].address)
-#         print('You are listening to ' + station_list[int(choice)].address)

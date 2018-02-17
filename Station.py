@@ -1,5 +1,5 @@
 class Station:
-    """docstring for Station."""
+    """Creates a single streaming station."""
     def __init__(self, name, address, logo):
         self.name = name
         self.address = address
