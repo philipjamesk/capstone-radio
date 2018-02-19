@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import os
 import pygame
 
 from station import Station
@@ -17,6 +18,7 @@ station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.
 def play():
     #vInitialize game and create a screen object.
     pygame.init()
+    os.putenv('SDL_FBDEV', '/dev/fb1')
     screen = pygame.display.set_mode((320,240))
     # Make a background
     bg_color = (255, 128, 255)
