@@ -34,14 +34,26 @@ def play():
     # Make a background
     bg_color = (232, 222, 199)
 
-    # Add logos
-    logo = Logo(screen, station_list[3].logo)
+    station = 2
 
     # Start the main loop for the radio app
     while True:
 
         # Watch for keyboard and mouse events
-        controls.check_events()
+        command = controls.check_events(station)
+
+        if command == 'right':
+            station = station + 1
+        elif command == 'left':
+            station = station - 1
+
+        if station < 0:
+            station = 0
+        if station >= len(station_list):
+            station = len(station_list) - 1
+
+        # Add logos
+        logo = Logo(screen, station_list[station].logo)
 
         # Add background color to screen
         screen.fill(bg_color)
