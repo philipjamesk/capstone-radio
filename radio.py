@@ -2,6 +2,7 @@
 
 import pygame
 import os
+import sys
 import subprocess
 import controls as controls
 from station import Station
