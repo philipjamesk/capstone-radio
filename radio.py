@@ -21,19 +21,11 @@ station_list = [Station('KCRW Ecletic 24', 'http://media.kcrw.com/pls/kcrwmusic.
                 Station('Double J', 'http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls', 'img/logos/doublej_logo.png')]
 
 
-# Print list of stations
-def listStations():
-    print('Your station choices are:')
-    i = 0
-    for station in station_list:
-        print(str(i) + ". " + station.name)
-        i = i + 1
 
 # Play a stream
 def playStation(stream):
     playing_station = subprocess.Popen(["mplayer", "-playlist", stream, "-cache-min", "99"])
     return playing_station
-
 
 # Close stream
 def stopPlaying(playing_station):
@@ -54,11 +46,18 @@ def play():
 
         # Watch for keyboard and mouse events
         command = controls.check_events(station)
-        if command == 'right':
+        if command == 'quit':
+            stopPlaying(playing_station)
+            pygame.quit()
+            sys.exit()
+        elif command == 'right':
+            stopPlaying(playing_station)
             station = station + 1
+            playStation(station_list[station].address)
         elif command == 'left':
+            stopPlaying(playing_station)
             station = station - 1
-
+            playStation(station_list[station].address)
         if station < 0:
             station = 0
         if station >= len(station_list):
