@@ -31,6 +31,7 @@ def play():
     pygame.init()
     os.putenv('SDL_FBDEV', '/dev/fb1')
     screen = pygame.display.set_mode((320,240))
+    screen.NOFRAME()
     # Make a background
     bg_color = (232, 222, 199)
 
