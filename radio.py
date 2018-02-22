@@ -43,7 +43,7 @@ def play():
     # Initialize game and create a screen object.
     pygame.init()
     os.putenv('SDL_FBDEV', '/dev/fb1')
-    screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
+    screen = pygame.display.set_mode((320,240), pygame.DOUBLEBUF | pygame.FULLSCREEN)
     # Make a background
     bg_color = (232, 222, 199)
 
