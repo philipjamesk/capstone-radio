@@ -64,8 +64,8 @@ def play():
         command = controls.check_events(station)
         if command == 'quit':
             stopPlaying(playing_station)
-            pygame.quit()
-            sys.exit()
+            # pygame.quit()
+            # sys.exit()
         elif command == 'right':
             stopPlaying(playing_station)
             station = station + 1
