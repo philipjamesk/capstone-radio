@@ -54,7 +54,7 @@ def play():
     bg_color = (232, 222, 199)
 
     station = 2
-    playStation(station)
+    playing_station = playStation(station)
 
     # Start the main loop for the radio app
     while True:
