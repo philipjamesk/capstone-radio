@@ -68,11 +68,11 @@ def play():
         elif command == 'right':
             stopPlaying(playing_station)
             station = station + 1
-            playStation(station_list[station].address)
+            playStation(station)
         elif command == 'left':
             stopPlaying(playing_station)
             station = station - 1
-            playStation(station_list[station].address)
+            playStation(station)
         if station < 0:
             station = 0
         if station >= len(station_list):
