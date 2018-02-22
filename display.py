@@ -27,7 +27,7 @@ station_list = [Station('KCRW Ecletic 24',
 
 
 def play():
-    #vInitialize game and create a screen object.
+    # Initialize game and create a screen object.
     pygame.init()
     os.putenv('SDL_FBDEV', '/dev/fb1')
     screen = pygame.display.set_mode((320,240))
@@ -51,6 +51,8 @@ def play():
             station = 0
         if station >= len(station_list):
             station = len(station_list) - 1
+
+        # for station in station_list:
 
         # Add logos
         logo = Logo(screen, station_list[station].logo)

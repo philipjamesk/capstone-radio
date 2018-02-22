@@ -12,3 +12,6 @@ def check_events(station):
                 return 'right'
             if event.key == pygame.K_LEFT:
                 return 'left'
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                sys.exit()
