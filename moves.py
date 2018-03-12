@@ -57,11 +57,11 @@ def check_events(logos, screen):
 
 def move_right(logos, screen):
     for logo in logos:
-        logo.changex(10)
+        logo.changex(20)
 
 def move_left(logos, screen):
     for logo in logos:
-        logo.changex(-10)
+        logo.changex(-20)
 
 def draw_logos(logos, screen):
     for logo in logos:
