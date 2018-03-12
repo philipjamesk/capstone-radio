@@ -79,6 +79,7 @@ def play():
 
         # Add logos
         logo = Logo(screen, station_list[station].logo)
+        logo.changex(160)
 
         # Add background color to screen
         screen.fill(bg_color)
