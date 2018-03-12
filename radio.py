@@ -35,11 +35,7 @@ station_list = [Station('KCRW Ecletic 24',
 
 # Play a stream
 def playStation(station):
-    playing_station = subprocess.Popen(["mplayer",
-                      "-playlist",
-                      station_list[station].address,
-                      "-cache-min",
-                      "99"])
+    playing_station = subprocess.Popen(["vlc", station_list[station].address])
     return playing_station
 
 # Close stream
