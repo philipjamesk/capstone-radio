@@ -19,11 +19,11 @@ logos = []
 #   pngs array is a place holder that will be replaced with stations list
 ###
 
-pngs = ['../Capstone/img/logos/eclectic24_logo.png',
-         '../Capstone/img/logos/triplej_logo.png',
-         '../Capstone/img/logos/wumb_logo.png',
-         '../Capstone/img/logos/tsfjazz_logo.png',
-         '../Capstone/img/logos/doublej_logo.png']
+pngs = ['img/logos/eclectic24_logo.png',
+        'img/logos/triplej_logo.png',
+        'img/logos/wumb_logo.png',
+        'img/logos/tsfjazz_logo.png',
+        'img/logos/doublej_logo.png']
 
 def main_loop():
     # Put all the initial settings here
