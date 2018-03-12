@@ -88,8 +88,8 @@ def draw_screen(screen, screen_rect):
     screen.fill(bg_color)
     #
     # Add the rest to the display
-    dial_marks = pygame.image.load('../Capstone/img/display/radio-marks.png')
-    red_line = pygame.image.load('../Capstone/img/display/red-line.png')
+    dial_marks = pygame.image.load('img/display/radio-marks.png')
+    red_line = pygame.image.load('img/display/red-line.png')
 
     dial_marks_rect = dial_marks.get_rect()
     red_line_rect = red_line.get_rect()
