@@ -3,7 +3,8 @@
 import pygame
 import os
 import sys
-import subprocess
+import vlc
+
 import controls as controls
 from station import Station
 from logo import Logo
@@ -31,16 +32,15 @@ station_list = [Station('KCRW Ecletic 24',
                         'http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls',
                         'img/logos/doublej_logo.png')]
 
-
+playlist = vlc.MediaList()
+radio = vlc.MediaListPlayer()
+for station in station_list:
+    playlist.add_media(station.address)
+radio.set_media_list(playlist)
 
 # Play a stream
 def playStation(station):
-    playing_station = subprocess.Popen(["vlc", station_list[station].address])
-    return playing_station
-
-# Close stream
-def stopPlaying(playing_station):
-    playing_station.kill()
+    radio.play_item_at_index(station)
 
 def play():
     # Initialize game and create a screen object.
@@ -51,7 +51,7 @@ def play():
     bg_color = (232, 222, 199)
 
     station = 2
-    playing_station = playStation(station)
+    playStation(station)
 
     # Start the main loop for the radio app
     while True:
@@ -59,15 +59,12 @@ def play():
         # Watch for keyboard and mouse events
         command = controls.check_events(station)
         if command == 'quit':
-            stopPlaying(playing_station)
             pygame.quit()
             sys.exit()
         elif command == 'right':
-            stopPlaying(playing_station)
             station = station + 1
             playStation(station)
         elif command == 'left':
-            stopPlaying(playing_station)
             station = station - 1
             playStation(station)
         if station < 0:
