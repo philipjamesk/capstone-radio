@@ -19,11 +19,11 @@ logos = []
 #   pngs array is a place holder that will be replaced with stations list
 ###
 
-pngs = ['../Capstone/img/logos/eclectic24_logo.png',
-         '../Capstone/img/logos/triplej_logo.png',
-         '../Capstone/img/logos/wumb_logo.png',
-         '../Capstone/img/logos/tsfjazz_logo.png',
-         '../Capstone/img/logos/doublej_logo.png']
+pngs = ['img/logos/eclectic24_logo.png',
+        'img/logos/triplej_logo.png',
+        'img/logos/wumb_logo.png',
+        'img/logos/tsfjazz_logo.png',
+        'img/logos/doublej_logo.png']
 
 def main_loop():
     # Put all the initial settings here
@@ -88,8 +88,8 @@ def draw_screen(screen, screen_rect):
     screen.fill(bg_color)
     #
     # Add the rest to the display
-    dial_marks = pygame.image.load('../Capstone/img/display/radio-marks.png')
-    red_line = pygame.image.load('../Capstone/img/display/red-line.png')
+    dial_marks = pygame.image.load('img/display/radio-marks.png')
+    red_line = pygame.image.load('img/display/red-line.png')
 
     dial_marks_rect = dial_marks.get_rect()
     red_line_rect = red_line.get_rect()
