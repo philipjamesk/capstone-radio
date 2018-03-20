@@ -1,0 +1,27 @@
+[
+    {
+        "name" : "KCRW Ecletic 24",
+        "address" : "http://media.kcrw.com/pls/kcrwmusic.pls",
+        "logo" : "img/logos/eclectic24_logo.png"
+    },
+    {
+        "name" : "triple j",
+        "address" : "http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls",
+        "logo" : "img/logos/triplej_logo.png"
+    },
+    {
+        "name" : "WUMB",
+        "address" : "http://www.wumb.org/listenlive/links/wumbfast.pls",
+        "logo" : "img/logos/wumb_logo.png"
+    },
+    {
+        "name" : "TSF Jazz",
+        "address" : "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.pls",
+        "logo" : "img/logos/tsfjazz_logo.png"
+    },
+    {
+        "name" : "Double J",
+        "address" : "http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls",
+        "logo" : "img/logos/doublej_logo.png"
+    }
+]

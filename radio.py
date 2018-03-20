@@ -1,88 +1,110 @@
-## Pygame is temporarily turned off for this version
-
-import pygame
-import os
 import sys
+import pygame
 import vlc
+import json
 
-import controls as controls
 from station import Station
 from logo import Logo
 
-# Building Display right in radio for now.
-# from display import Display
-
-# Initialize Pygame
-pygame.init()
-
 # Make a list of stations
-station_list = [Station('KCRW Ecletic 24',
-                        'http://media.kcrw.com/pls/kcrwmusic.pls',
-                        'img/logos/eclectic24_logo.png'),
-                Station('triple j',
-                        'http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls',
-                        'img/logos/triplej_logo.png'),
-                Station('WUMB',
-                        'http://www.wumb.org/listenlive/links/wumbfast.pls',
-                        'img/logos/wumb_logo.png'),
-                Station('TSF Jazz',
-                        'http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.pls',
-                        'img/logos/tsfjazz_logo.png'),
-                Station('Double J',
-                        'http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls',
-                        'img/logos/doublej_logo.png')]
-
+station_list = []
+current_station = 3                             # will eventually be pickled
+screen = pygame.display.set_mode((320,240))
 playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
-for station in station_list:
-    playlist.add_media(station.address)
-radio.set_media_list(playlist)
+
+def main_loop():
+    # Put all the initial settings here
+    pygame.init()
+    screen_rect = screen.get_rect()
+
+    # import station list from JSON file
+    json_data = open('stations.json').read()
+    data = json.loads(json_data)
+    for item in data:
+        station = Station(item['address'], item['logo'], screen)
+        station_list.append(station)
+
+    # add stations to MediaList
+    for station in station_list:
+        playlist.add_media(station.address)
+
+    # Set radio MediaList
+    radio.set_media_list(playlist)
+
+    # Place logos according to initial playing station
+    place_logos()
+
+    # play current station
+    playStation(current_station)
+
+    while True:
+        # This is where pygame will listen for keypresses, update the logos
+        # and flip the screen
+        # draw_logos(logos, screen)
+        check_events()
+
+#####  Working here
+        # radio_controls()
+        draw_screen(screen, screen_rect)
+        pygame.display.flip()
+
+def check_events():
+    # Determine is a key event is a left or right arrow and pass it to the
+    # correct movement function
+    #
+    # Will eventually be replaced with GPI Controls from Rotatry Encoder
+    #
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT and station_list[0].logo.rect.centerx <= 160:
+                move_right()
+            if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
+                move_left()
+
+
+def move_right():
+    for station in station_list:
+        station.logo.changex(25)
+
+def move_left():
+    for station in station_list:
+        station.logo.changex(-25)
+
+def place_logos():
+    x = 160 - (current_station * 100)
+    for station in station_list:
+        station.logo.setx(x)
+        x += 100
+
+def draw_screen(screen, screen_rect):
+    # Set the background color
+    bg_color = (232, 222, 199)
+    screen.fill(bg_color)
+
+    # Add the rest to the display
+    dial_marks = pygame.image.load('img/display/radio-marks.png')
+    red_line = pygame.image.load('img/display/red-line.png')
+    dial_marks_rect = dial_marks.get_rect()
+    red_line_rect = red_line.get_rect()
+    dial_marks_rect.centerx = screen_rect.centerx
+    dial_marks_rect.centery = screen_rect.centery
+    red_line_rect.centerx = screen_rect.centerx
+    red_line_rect.centery = screen_rect.centery
+
+    # Add station logos to screen
+    for station in station_list:
+        station.logo.blitme()
+
+    # Add dial marks and red line to screen
+    screen.blit(dial_marks, dial_marks_rect)
+    screen.blit(red_line, red_line_rect)
 
 # Play a stream
 def playStation(station):
     radio.play_item_at_index(station)
 
-def play():
-    # Initialize game and create a screen object.
-    pygame.init()
-    os.putenv('SDL_FBDEV', '/dev/fb1')
-    screen = pygame.display.set_mode((320,240))
-    # Make a background
-    bg_color = (232, 222, 199)
-
-    station = 2
-    playStation(station)
-
-    # Start the main loop for the radio app
-    while True:
-
-        # Watch for keyboard and mouse events
-        command = controls.check_events(station)
-        if command == 'quit':
-            pygame.quit()
-            sys.exit()
-        elif command == 'right':
-            station = station + 1
-            playStation(station)
-        elif command == 'left':
-            station = station - 1
-            playStation(station)
-        if station < 0:
-            station = 0
-        if station >= len(station_list):
-            station = len(station_list) - 1
-
-        # for station in station_list:
-
-        # Add logos
-        logo = Logo(screen, station_list[station].logo)
-        logo.changex(200)
-
-        # Add background color to screen
-        screen.fill(bg_color)
-        logo.blitme()
-
-        # Make the most recently drawn screen visible.
-        pygame.display.flip()
-
-play()
+# run the main loop
+main_loop()

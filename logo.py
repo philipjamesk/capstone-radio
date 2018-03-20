@@ -2,10 +2,6 @@ import pygame
 
 class Logo(object):
     def __init__(self, screen, image):
-        #
-        #   To make a logs...
-        #   logo = Logo()
-        #
 
         """Create a logo for each radio station on the display."""
         self.screen = screen
@@ -21,9 +17,17 @@ class Logo(object):
         self.rect.centerx = -40
         self.rect.centery = self.screen_rect.centery
 
-
     def changex(self, x):
         self.rect.centerx = self.rect.centerx + x
+
+    def setx(self, x):
+        self.rect.centerx = x
+
+    def station_is_playing(self):
+        if self.centerx >= 120 and self.centerx <= 200:
+            return True
+        else:
+            return False
 
     def blitme(self):
         """Draw the logo at current location."""
