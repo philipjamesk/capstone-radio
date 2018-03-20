@@ -5,3 +5,4 @@ class Station:
     def __init__(self, address, image, screen):
         self.address = address
         self.logo = Logo(screen, image)
+        self.is_playing = False

@@ -8,7 +8,7 @@ from logo import Logo
 
 # Make a list of stations
 station_list = []
-current_station = 3                             # will eventually be pickled
+# current_station = 3                             # will eventually be pickled
 screen = pygame.display.set_mode((320,240))
 playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
@@ -17,13 +17,16 @@ def main_loop():
     # Put all the initial settings here
     pygame.init()
     screen_rect = screen.get_rect()
-
+    current_station = 3
     # import station list from JSON file
     json_data = open('stations.json').read()
     data = json.loads(json_data)
     for item in data:
         station = Station(item['address'], item['logo'], screen)
         station_list.append(station)
+        if station_list.index(station) == current_station:
+            station.is_playing = True
+
 
     # add stations to MediaList
     for station in station_list:
@@ -33,23 +36,25 @@ def main_loop():
     radio.set_media_list(playlist)
 
     # Place logos according to initial playing station
-    place_logos()
+    place_logos(current_station)
 
     # play current station
-    playStation(current_station)
+    for station in station_list:
+        if station.is_playing:
+            playStation(station_list.index(station))
 
     while True:
         # This is where pygame will listen for keypresses, update the logos
         # and flip the screen
         # draw_logos(logos, screen)
-        check_events()
+        current_station = check_events(current_station)
 
 #####  Working here
         # radio_controls()
         draw_screen(screen, screen_rect)
         pygame.display.flip()
 
-def check_events():
+def check_events(current_station):
     # Determine is a key event is a left or right arrow and pass it to the
     # correct movement function
     #
@@ -63,6 +68,15 @@ def check_events():
                 move_right()
             if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
                 move_left()
+    if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
+        radio.stop()
+        current_station = -1
+    if current_station == -1:
+        for station in station_list:
+            if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
+                current_station = station_list.index(station)
+                playStation(current_station)
+    return current_station
 
 
 def move_right():
@@ -73,7 +87,7 @@ def move_left():
     for station in station_list:
         station.logo.changex(-25)
 
-def place_logos():
+def place_logos(current_station):
     """Initially places the logos based on the current_station."""
     x = 160 - (current_station * 100)
     for station in station_list:
