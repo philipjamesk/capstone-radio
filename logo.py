@@ -2,7 +2,6 @@ import pygame
 
 class Logo(object):
     def __init__(self, screen, image):
-
         """Create a logo for each radio station on the display."""
         self.screen = screen
 
@@ -18,12 +17,15 @@ class Logo(object):
         self.rect.centery = self.screen_rect.centery
 
     def changex(self, x):
+        """Change the centerx of logo to a by value of x."""
         self.rect.centerx = self.rect.centerx + x
 
     def setx(self, x):
+        """Set the centerx of logo to a new value of x."""
         self.rect.centerx = x
 
     def station_is_playing(self):
+        """Test if logo of station is in the center of the screen."""
         if self.centerx >= 120 and self.centerx <= 200:
             return True
         else:

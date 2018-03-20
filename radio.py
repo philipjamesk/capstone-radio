@@ -74,6 +74,7 @@ def move_left():
         station.logo.changex(-25)
 
 def place_logos():
+    """Initially places the logos based on the current_station."""
     x = 160 - (current_station * 100)
     for station in station_list:
         station.logo.setx(x)
