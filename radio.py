@@ -1,4 +1,5 @@
 import sys
+import os
 import pygame
 import vlc
 import json
@@ -20,8 +21,12 @@ def main_loop():
     current_station = 3
     # import station list from JSON file
     json_data = open('stations.json').read()
+    path = os.path.abspath("")
+    print(path)
     data = json.loads(json_data)
     for item in data:
+        path_to_logo = path + '/' + item['logo']
+        print(path_to_logo)
         station = Station(item['address'], item['logo'], screen)
         station_list.append(station)
         if station_list.index(station) == current_station:
