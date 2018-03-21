@@ -27,7 +27,7 @@ def main_loop():
     for item in data:
         path_to_logo = path + '/' + item['logo']
         print(path_to_logo)
-        station = Station(item['address'], item['logo'], screen)
+        station = Station(item['address'], path_to_logo, screen)
         station_list.append(station)
         if station_list.index(station) == current_station:
             station.is_playing = True
