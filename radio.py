@@ -12,7 +12,7 @@ from logo import Logo
 # Make a list of stations
 station_list = []
 # current_station = 3                             # will eventually be pickled
-screen = pygame.display.set_mode((320,240))
+screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
 playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
 
@@ -73,6 +73,8 @@ def check_events(current_station):
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                sys.exit()
             if event.key == pygame.K_RIGHT and station_list[0].logo.rect.centerx <= 160:
                 move_right()
             if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
