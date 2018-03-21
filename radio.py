@@ -21,14 +21,16 @@ def main_loop():
     pygame.init()
     screen_rect = screen.get_rect()
     current_station = 3
-    # import station list from JSON file
-    json_data = open('stations.json').read()
-    path = os.path.abspath("")
+    # find path to folder
+    path = (os.path.dirname(os.path.realpath(sys.argv[0])))
     print(path)
+    # import station list from JSON file
+    path_to_json = path + "/stations.json"
+    json_data = open(path_to_json).read()
+
     data = json.loads(json_data)
     for item in data:
         path_to_logo = path + '/' + item['logo']
-        print(path_to_logo)
         station = Station(item['address'], path_to_logo, screen)
         station_list.append(station)
         if station_list.index(station) == current_station:
@@ -58,7 +60,7 @@ def main_loop():
 
 #####  Working here
         # radio_controls()
-        draw_screen(screen, screen_rect)
+        draw_screen(screen, screen_rect, path)
         pygame.display.flip()
 
 def check_events(current_station):
@@ -101,14 +103,14 @@ def place_logos(current_station):
         station.logo.setx(x)
         x += 100
 
-def draw_screen(screen, screen_rect):
+def draw_screen(screen, screen_rect, path):
     # Set the background color
     bg_color = (232, 222, 199)
     screen.fill(bg_color)
 
     # Add the rest to the display
-    dial_marks = pygame.image.load('img/display/radio-marks.png')
-    red_line = pygame.image.load('img/display/red-line.png')
+    dial_marks = pygame.image.load(path + '/img/display/radio-marks.png')
+    red_line = pygame.image.load(path + '/img/display/red-line.png')
     dial_marks_rect = dial_marks.get_rect()
     red_line_rect = red_line.get_rect()
     dial_marks_rect.centerx = screen_rect.centerx
