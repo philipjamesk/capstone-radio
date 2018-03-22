@@ -52,18 +52,18 @@ def main_loop():
         if station.is_playing:
             playStation(station_list.index(station))
 
+    draw_screen(screen, screen_rect, path)
+
     while True:
         # This is where pygame will listen for keypresses, update the logos
         # and flip the screen
         # draw_logos(logos, screen)
-        current_station = check_events(current_station)
+        current_station = check_events(current_station, screen_rect, path)
 
 #####  Working here
         # radio_controls()
-        draw_screen(screen, screen_rect, path)
-        pygame.display.flip()
 
-def check_events(current_station):
+def check_events(current_station, screen_rect, path):
     # Determine is a key event is a left or right arrow and pass it to the
     # correct movement function
     #
@@ -79,14 +79,16 @@ def check_events(current_station):
                 move_right()
             if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
                 move_left()
-    if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
-        radio.stop()
-        current_station = -1
-    if current_station == -1:
-        for station in station_list:
-            if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
-                current_station = station_list.index(station)
-                playStation(current_station)
+            draw_screen(screen, screen_rect, path)
+        if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
+            radio.stop()
+            current_station = -1
+        if current_station == -1:
+            for station in station_list:
+                if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
+                    current_station = station_list.index(station)
+                    playStation(current_station)
+
     return current_station
 
 
@@ -127,6 +129,9 @@ def draw_screen(screen, screen_rect, path):
     # Add dial marks and red line to screen
     screen.blit(dial_marks, dial_marks_rect)
     screen.blit(red_line, red_line_rect)
+
+
+    pygame.display.flip()
 
 # Play a stream
 def playStation(station):
