@@ -2,6 +2,7 @@
 
 import sys
 import os
+import time
 import pygame
 import vlc
 import json
@@ -58,10 +59,9 @@ def main_loop():
         # This is where pygame will listen for keypresses, update the logos
         # and flip the screen
         # draw_logos(logos, screen)
+        time.sleep(.05)
         current_station = check_events(current_station, screen_rect, path)
 
-#####  Working here
-        # radio_controls()
 
 def check_events(current_station, screen_rect, path):
     # Determine is a key event is a left or right arrow and pass it to the
