@@ -39,10 +39,8 @@ def main_loop():
 
     # unpickle last saved playing station otherwise play index 0
     try:
-        print("successful unpickle")
         current_station = pickle.load(open("current_station.pickle", "rb" ))
     except:
-        print("failed unpickle")
         current_station = 0
 
     # import station list from JSON file
@@ -85,7 +83,6 @@ def check_events(current_station, screen_rect):
     # Will eventually be replaced with GPI Controls from Rotatry Encoder
 
     for (k,v) in button_map.items():
-        print(k)
         if GPIO.input(k) == False:
             if v == 'escape':
                  sys.exit()
@@ -153,7 +150,6 @@ def playStation(station):
 
 # Pickle the current station
 def pickleStation(current_station):
-    print("Pickling Station: " + str(current_station))
     pickle.dump(current_station, open( "current_station.pickle", "wb" ))
 
 
