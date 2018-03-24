@@ -73,36 +73,13 @@ def main_loop():
         # This is where pygame will listen for keypresses, update the logos
         # and flip the screen
         # draw_logos(logos, screen)
-        time.sleep(.05)
+        time.sleep(.1)
         current_station = check_events(current_station, screen_rect)
 
 
 def check_events(current_station, screen_rect):
-    # Determine is a key event is a left or right arrow and pass it to the
-    # correct movement function
-    #
     # Will eventually be replaced with GPI Controls from Rotatry Encoder
-    #
-    # for event in pygame.event.get():
-    #     if event.type == pygame.QUIT:
-    #         sys.exit()
-    #     elif event.type == pygame.KEYDOWN:
-    #         if event.key == pygame.K_ESCAPE:
-    #             sys.exit()
-    #         if event.key == pygame.K_RIGHT and station_list[0].logo.rect.centerx <= 160:
-    #             move_right()
-    #         if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
-    #             move_left()
-    #         draw_screen(screen, screen_rect)
-    #     if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
-    #         radio.stop()
-    #         current_station = -1
-    #     if current_station == -1:
-    #         for station in station_list:
-    #             if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
-    #                 current_station = station_list.index(station)
-    #                 playStation(current_station)
-    # return current_station
+
     for (k,v) in button_map.items():
         print(k)
         if GPIO.input(k) == False:
