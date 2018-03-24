@@ -34,8 +34,10 @@ def main_loop():
     screen_rect = screen.get_rect()
 
     try:
+        print("successful unpickle")
         current_station = pickle.load(open("current_station.pickle", "rb" ))
     except:
+        print("failed unpickle")
         current_station = 0
 
     # find path to folder and change directory
@@ -149,6 +151,7 @@ def playStation(station):
 
 # Pickle the current station
 def pickleStation(current_station):
+    print("Pickling Station: " + str(current_station))
     pickle.dump(current_station, open( "current_station.pickle", "wb" ))
 
 
