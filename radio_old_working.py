@@ -6,8 +6,6 @@ import time
 import pickle
 import json
 
-import RPi.GPIO as GPIO
-
 import pygame
 import vlc
 
@@ -20,9 +18,6 @@ os.putenv('SDL_FBDEV', '/dev/fb1')
 screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
 playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
-
-# Button Map Temporary GPIO settings
-button_map = {23:'up', 22:'', 27:'down', 17:'escape'}
 
 def main_loop():
     # Put all the initial settings here
@@ -80,43 +75,25 @@ def check_events(current_station, screen_rect):
     #
     # Will eventually be replaced with GPI Controls from Rotatry Encoder
     #
-    # for event in pygame.event.get():
-    #     if event.type == pygame.QUIT:
-    #         sys.exit()
-    #     elif event.type == pygame.KEYDOWN:
-    #         if event.key == pygame.K_ESCAPE:
-    #             sys.exit()
-    #         if event.key == pygame.K_RIGHT and station_list[0].logo.rect.centerx <= 160:
-    #             move_right()
-    #         if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
-    #             move_left()
-    #         draw_screen(screen, screen_rect)
-    #     if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
-    #         radio.stop()
-    #         current_station = -1
-    #     if current_station == -1:
-    #         for station in station_list:
-    #             if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
-    #                 current_station = station_list.index(station)
-    #                 playStation(current_station)
-    # return current_station
-    for (k,v) in button_map.items():
-        if GPIO.input(k) == False:
-            if v == 'escape':
-                 sys.exit()
-            elif v == 'up' and station_list[0].logo.rect.centerx <= 160:
-                 move_right()
-             elif v == 'down' and station_list[-1].logo.rect.centerx >= 160:
-                 move_left()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                sys.exit()
+            if event.key == pygame.K_RIGHT and station_list[0].logo.rect.centerx <= 160:
+                move_right()
+            if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
+                move_left()
             draw_screen(screen, screen_rect)
-            if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
-                radio.stop()
-                current_station = -1
-            if current_station == -1:
-                for station in station_list:
-                    if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
-                        current_station = station_list.index(station)
-                        playStation(current_station)
+        if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
+            radio.stop()
+            current_station = -1
+        if current_station == -1:
+            for station in station_list:
+                if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
+                    current_station = station_list.index(station)
+                    playStation(current_station)
     return current_station
 
 
