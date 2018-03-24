@@ -33,15 +33,17 @@ def main_loop():
     pygame.mouse.set_visible(False)
     screen_rect = screen.get_rect()
 
+
+    # find path to folder and change directory
+    os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
+
+    # unpickle last saved playing station otherwise play index 0
     try:
         print("successful unpickle")
         current_station = pickle.load(open("current_station.pickle", "rb" ))
     except:
         print("failed unpickle")
         current_station = 0
-
-    # find path to folder and change directory
-    os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
 
     # import station list from JSON file
     json_data = open("stations.json").read()
