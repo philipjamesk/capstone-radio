@@ -22,17 +22,17 @@ def main_loop():
     pygame.init()
     screen_rect = screen.get_rect()
     current_station = 3
-    # find path to folder
-    path = (os.path.dirname(os.path.realpath(sys.argv[0])))
-    print(path)
+
+    # find path to folder and change directory
+    os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
+
     # import station list from JSON file
-    path_to_json = path + "/stations.json"
-    json_data = open(path_to_json).read()
+    json_data = open("stations.json").read()
 
     data = json.loads(json_data)
     for item in data:
-        path_to_logo = path + '/' + item['logo']
-        station = Station(item['address'], path_to_logo, screen)
+    #    path_to_logo = path + '/' + item['logo']
+        station = Station(item['address'], item['logo'], screen)
         station_list.append(station)
         if station_list.index(station) == current_station:
             station.is_playing = True
@@ -53,17 +53,17 @@ def main_loop():
         if station.is_playing:
             playStation(station_list.index(station))
 
-    draw_screen(screen, screen_rect, path)
+    draw_screen(screen, screen_rect)
 
     while True:
         # This is where pygame will listen for keypresses, update the logos
         # and flip the screen
         # draw_logos(logos, screen)
         time.sleep(.05)
-        current_station = check_events(current_station, screen_rect, path)
+        current_station = check_events(current_station, screen_rect)
 
 
-def check_events(current_station, screen_rect, path):
+def check_events(current_station, screen_rect):
     # Determine is a key event is a left or right arrow and pass it to the
     # correct movement function
     #
@@ -79,7 +79,7 @@ def check_events(current_station, screen_rect, path):
                 move_right()
             if event.key == pygame.K_LEFT and station_list[-1].logo.rect.centerx >= 160:
                 move_left()
-            draw_screen(screen, screen_rect, path)
+            draw_screen(screen, screen_rect)
         if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
             radio.stop()
             current_station = -1
@@ -107,14 +107,14 @@ def place_logos(current_station):
         station.logo.setx(x)
         x += 100
 
-def draw_screen(screen, screen_rect, path):
+def draw_screen(screen, screen_rect):
     # Set the background color
     bg_color = (232, 222, 199)
     screen.fill(bg_color)
 
     # Add the rest to the display
-    dial_marks = pygame.image.load(path + '/img/display/radio-marks.png')
-    red_line = pygame.image.load(path + '/img/display/red-line.png')
+    dial_marks = pygame.image.load('img/display/radio-marks.png')
+    red_line = pygame.image.load('img/display/red-line.png')
     dial_marks_rect = dial_marks.get_rect()
     red_line_rect = red_line.get_rect()
     dial_marks_rect.centerx = screen_rect.centerx
