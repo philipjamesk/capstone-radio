@@ -23,6 +23,7 @@ radio = vlc.MediaListPlayer()
 
 # Button Map Temporary GPIO settings
 button_map = {23:'up', 22:'', 27:'down', 17:'escape'}
+GPIO.setmode(GPIO.BCM)
 
 def main_loop():
     # Put all the initial settings here
