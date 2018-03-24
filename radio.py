@@ -13,13 +13,14 @@ from logo import Logo
 # Make a list of stations
 station_list = []
 # current_station = 3                             # will eventually be pickled
+os.putenv('SDL_FBDEV', '/dev/fb1')
 screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
 playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
 
 def main_loop():
     # Put all the initial settings here
-    pygame.init()
+    pygame.display.init()
     screen_rect = screen.get_rect()
     current_station = 3
 
