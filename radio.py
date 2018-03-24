@@ -3,16 +3,17 @@
 import sys
 import os
 import time
+import pickle
+import json
+
 import pygame
 import vlc
-import json
 
 from station import Station
 from logo import Logo
 
 # Make a list of stations
 station_list = []
-# current_station = 3                             # will eventually be pickled
 os.putenv('SDL_FBDEV', '/dev/fb1')
 screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
 playlist = vlc.MediaList()
@@ -21,23 +22,27 @@ radio = vlc.MediaListPlayer()
 def main_loop():
     # Put all the initial settings here
     pygame.display.init()
+    pygame.mouse.set_visible(False)
     screen_rect = screen.get_rect()
-    current_station = 3
+
+    try:
+        current_station = pickle.load(open("current_station.pickle", "rb" ))
+    except:
+        current_station = 0
 
     # find path to folder and change directory
     os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
 
     # import station list from JSON file
     json_data = open("stations.json").read()
-
     data = json.loads(json_data)
+
+    # load stations into station list
     for item in data:
-    #    path_to_logo = path + '/' + item['logo']
         station = Station(item['address'], item['logo'], screen)
         station_list.append(station)
         if station_list.index(station) == current_station:
             station.is_playing = True
-
 
     # add stations to MediaList
     for station in station_list:
@@ -89,7 +94,6 @@ def check_events(current_station, screen_rect):
                 if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
                     current_station = station_list.index(station)
                     playStation(current_station)
-
     return current_station
 
 
@@ -137,6 +141,12 @@ def draw_screen(screen, screen_rect):
 # Play a stream
 def playStation(station):
     radio.play_item_at_index(station)
+    pickleStation(station)
+
+# Pickle the current station
+def pickleStation(current_station):
+    pickle.dump(current_station, open( "current_station.pickle", "wb" ))
+
 
 # run the main loop
 main_loop()
