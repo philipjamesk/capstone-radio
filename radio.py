@@ -24,6 +24,8 @@ radio = vlc.MediaListPlayer()
 # Button Map Temporary GPIO settings
 button_map = {23:'up', 22:'', 27:'down', 17:'escape'}
 GPIO.setmode(GPIO.BCM)
+for k in button_map.keys():
+    GPIO.setup(k, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def main_loop():
     # Put all the initial settings here
@@ -102,6 +104,7 @@ def check_events(current_station, screen_rect):
     #                 playStation(current_station)
     # return current_station
     for (k,v) in button_map.items():
+        print(k)
         if GPIO.input(k) == False:
             if v == 'escape':
                  sys.exit()
