@@ -27,8 +27,6 @@ class StationListFrame(wx.Frame):
             station_buttons[index].Bind(wx.EVT_BUTTON, lambda event, index=index: edit_station(self, index))
             index += 1
 
-        b_sizer = wx.BoxSizer(wx.HORIZONTAL)
-
         # add system button to panel
         quitButton = wx.Button(panel, label="Quit", pos=(15, 185))
         addButton = wx.Button(panel, label="Add Station", pos=(115, 185))
@@ -38,20 +36,28 @@ class StationListFrame(wx.Frame):
         addButton.Bind(wx.EVT_BUTTON, add_pressed)
         saveButton.Bind(wx.EVT_BUTTON, save_pressed)
 
-        # b_sizer.Add(quitButton, 0, wx.EXPAND)
-        # b_sizer.Add(addButton, 0, wx.EXPAND)
-        # b_sizer.Add(saveButton, 0, wx.EXPAND)
-
-
         spanel.SetSizer(row_sizer)
         spanel.SetupScrolling()
-
-        # sizer.Add(row_sizer)
-        sizer.Add(b_sizer)
 
         panel.SetSizer(sizer)
         self.Show()
 
+class StationEditFrame(wx.Frame):
+    def __init__(self, parent, index):
+        wx.Frame.__init__(self, parent)
+        self.SetSize(320, 240)
+        self.index = index
+        panel = wx.Panel(self)
+
+        wx.StaticText(panel, label=station_list[self.index]['name'])
+
+        cancelButton = wx.Button(panel, label="Cancel && Exit", pos=(15, 185), size=(120, 20))
+        saveStationButton = wx.Button(panel, label="Save && Exit", pos=(185, 185), size=(120, 20))
+
+        cancelButton.Bind(wx.EVT_BUTTON, lambda event: cancel_pressed(self))
+        saveStationButton.Bind(wx.EVT_BUTTON, save_station_pressed)
+
+        self.Show()
 
 def main():
     app = wx.App(False)
@@ -59,9 +65,9 @@ def main():
     app.MainLoop()
 
 def edit_station(frame, index):
-    station_list.remove(station_list[index])
     frame.Close()
-    main()
+    print(index)
+    frame = StationEditFrame(None, index)
 
 def quit_pressed(event):
     print("Quit Pressed")
@@ -71,10 +77,15 @@ def add_pressed(event):
     print("Add Pressed")
 
 def save_pressed(event):
-    print("Save Pressed")
-    print(json.dumps(station_list, sort_keys=True, indent=4, separators=(',', ': ')))
     with open('stations.json', 'w') as outfile:
         json.dump(station_list, outfile, sort_keys=True, indent=4, separators=(',', ': '))
+
+def cancel_pressed(frame):
+    frame.Close()
+    frame = StationListFrame(None)
+
+def save_station_pressed(event):
+    pass
 
 
 if __name__ == '__main__':
