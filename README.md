@@ -2,7 +2,8 @@
 
 This is the python code for my Raspberry Pi internet radio that I am building for as the project for DGMD E-599 at Harvard Extension School.
 
-### Required 
+### Required
 * vlc
 * python-vlc
 * pygame
+* wxPython
