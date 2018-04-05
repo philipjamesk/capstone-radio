@@ -49,15 +49,46 @@ class StationEditFrame(wx.Frame):
         self.index = index
         panel = wx.Panel(self)
 
-        wx.StaticText(panel, label=station_list[self.index]['name'])
+        vbox = wx.BoxSizer(wx.VERTICAL)
+
+        name_box = wx.BoxSizer(wx.HORIZONTAL)
+        name_label = wx.StaticText(panel, label='Name:')
+        name_box.Add(name_label, flag=wx.RIGHT, border=8)
+        self.name_text = wx.TextCtrl(panel, value=station_list[index]['name'])
+        # self.name_text.Bind(wx.E)
+        name_box.Add(self.name_text, proportion=1)
+        vbox.Add(name_box, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=10)
+
+        address_box = wx.BoxSizer(wx.HORIZONTAL)
+        address_label = wx.StaticText(panel, label='Address:')
+        address_box.Add(address_label, flag=wx.RIGHT, border=8)
+        self.address_text = wx.TextCtrl(panel, value=station_list[index]['address'])
+        address_box.Add(self.address_text, proportion=1)
+        vbox.Add(address_box, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=10)
+
+        logo_box = wx.BoxSizer(wx.HORIZONTAL)
+        logo_label = wx.StaticText(panel, label='Logo:')
+        logo_box.Add(logo_label, flag=wx.RIGHT, border=8)
+        self.logo_text = wx.TextCtrl(panel, value=station_list[index]['logo'])
+        logo_box.Add(self.logo_text, proportion=1)
+        vbox.Add(logo_box, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=10)
 
         cancelButton = wx.Button(panel, label="Cancel && Exit", pos=(15, 185), size=(120, 20))
         saveStationButton = wx.Button(panel, label="Save && Exit", pos=(185, 185), size=(120, 20))
 
         cancelButton.Bind(wx.EVT_BUTTON, lambda event: cancel_pressed(self))
-        saveStationButton.Bind(wx.EVT_BUTTON, save_station_pressed)
+        saveStationButton.Bind(wx.EVT_BUTTON, lambda event, index=index: self.save_station_pressed(index))
 
+        panel.SetSizer(vbox)
+        # self.Bind(wx.EVT_TEXT, self.on_type_event)
         self.Show()
+
+    def save_station_pressed(self, index):
+        station_list[index]['name'] = self.name_text.GetValue()
+        station_list[index]['address'] = self.address_text.GetValue()
+        station_list[index]['logo'] = self.logo_text.GetValue()
+        self.Close()
+        frame = StationListFrame(None)
 
 def main():
     app = wx.App(False)
@@ -66,11 +97,9 @@ def main():
 
 def edit_station(frame, index):
     frame.Close()
-    print(index)
     frame = StationEditFrame(None, index)
 
 def quit_pressed(event):
-    print("Quit Pressed")
     exit()
 
 def add_pressed(event):
@@ -84,9 +113,9 @@ def cancel_pressed(frame):
     frame.Close()
     frame = StationListFrame(None)
 
-def save_station_pressed(event):
-    pass
-
+# def save_station_pressed(frame, index, station):
+#     print(station)
+#     pass
 
 if __name__ == '__main__':
     main()
