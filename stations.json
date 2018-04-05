@@ -7,12 +7,12 @@
     {
         "address": "http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls",
         "logo": "img/logos/triplej_logo.png",
-        "name": "triple j"
+        "name": "triple j 2.0"
     },
     {
         "address": "http://www.wumb.org/listenlive/links/wumbfast.pls",
         "logo": "img/logos/wumb_logo.png",
-        "name": "WUMB"
+        "name": "WUt"
     },
     {
         "address": "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.pls",
@@ -22,6 +22,11 @@
     {
         "address": "http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls",
         "logo": "img/logos/doublej_logo.png",
-        "name": "Double J 1.1"
+        "name": "Double J"
+    },
+    {
+        "address": "http://my.station.com/radio.pls",
+        "logo": "path to logo",
+        "name": "New Station"
     }
 ]
