@@ -13,6 +13,4 @@ This is the python code for my Raspberry Pi internet radio that I am building fo
 * file picker for adding logo
 * check logo to be valid image file
 * check address to valid web address
-* station_list.py should relaunch
-
-    
+* station_list.py should relaunch radio.py

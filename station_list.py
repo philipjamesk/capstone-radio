@@ -2,6 +2,8 @@
 
 import sys
 import os
+from subprocess import call
+
 import json
 import wx
 import wx.lib.scrolledpanel as sp
@@ -195,6 +197,7 @@ class StationEditFrame(wx.Frame):
         frame = StationListFrame(None)
 
 def exit_station_list():
+    call(["python3", "radio.py"])
     exit()
 
 def main():
