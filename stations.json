@@ -23,10 +23,5 @@
         "address": "http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls",
         "logo": "img/logos/doublej_logo.png",
         "name": "Double J"
-    },
-    {
-        "address": "http://www.radiofeeds.co.uk/bbc6music.pls",
-        "logo": "img/logos/bbc6_logo.png",
-        "name": "BBC Radio 6"
     }
 ]

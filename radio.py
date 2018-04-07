@@ -47,6 +47,10 @@ def main_loop():
     json_data = open("stations.json").read()
     data = json.loads(json_data)
 
+    # double check that the current_station is still in the station list
+    if current_station > len(data):
+        current_station = 0
+
     # load stations into station list
     for item in data:
         station = Station(item['address'], item['logo'], screen)
