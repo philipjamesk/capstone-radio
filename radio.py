@@ -48,7 +48,7 @@ def main_loop():
     data = json.loads(json_data)
 
     # double check that the current_station is still in the station list
-    if current_station > len(data):
+    if current_station >= len(data):
         current_station = 0
 
     # load stations into station list
