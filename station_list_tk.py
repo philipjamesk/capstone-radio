@@ -220,8 +220,9 @@ class StationListFrame(Frame):
 #     sys.exit()
 #
 def main():
-    root = Tk(fullscreen=TRUE)
-    root.geometry("320x240")
+    root = Tk()
+    # root.geometry("320x240")
+    root.attributes("-fullscreen", True)
     station_frame = StationListFrame(None)
     root.mainloop()
 
