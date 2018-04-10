@@ -8,6 +8,7 @@ from subprocess import call
 import json
 
 from tkinter import *
+from tkinter import messagebox
 from tkinter import ttk
 
 # find path to folder and change directory
@@ -70,23 +71,30 @@ class StationListFrame(Frame):
         pass
 
     def add_pressed(self):
-        # station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
-        # self.Close()
+        station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
+        # self.pack_forget()
         # frame = StationEditFrame(None, -1)
         print("Add pressed")
 
     def save_pressed(self):
-        # with open('stations.json', 'w') as outfile:
-        #     json.dump(station_list,
-        #               outfile,
-        #               sort_keys=True,
-        #               indent=4,
-        #               separators=(',', ': '))
-        # self.list_is_not_saved = False
+        with open('stations.json', 'w') as outfile:
+            json.dump(station_list,
+                      outfile,
+                      sort_keys=True,
+                      indent=4,
+                      separators=(',', ': '))
+        self.list_is_not_saved = False
         print("Save pressed")
 
     def quit_pressed(self):
-        print("Quit pressed")
+        # print("Quit pressed")
+        # self.pack_forget()
+
+        if self.list_is_not_saved:
+            self.quitwarning = messagebox.askyesnocancel("Question", "Continue playing?")
+
+
+        sys.exit()
         # if self.list_is_not_saved:
         #     dlg = wx.Dialog(self, title="Warning!", size=(300, 180), pos=(10, 20))
         #     dlg_panel = wx.Panel(dlg)

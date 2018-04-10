@@ -88,5 +88,10 @@
         "address": "http://audio.wgbh.org:8004",
         "logo": "img/logos/wcrb_logo.png",
         "name": "WCRB"
+    },
+    {
+        "address": "",
+        "logo": "",
+        "name": ""
     }
 ]
