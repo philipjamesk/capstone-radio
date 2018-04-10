@@ -2,6 +2,7 @@
 #
 import sys
 import os
+import platform                    ### <---- For testing only
 from subprocess import call
 
 import json
@@ -38,7 +39,10 @@ class StationListFrame(Frame):
         frame.bind("<Configure>",myfunction)
 
         for station in station_list:
-            ttk.Button(frame, text="Edit: " + station['name'], width=30).pack()
+            ttk.Button(frame,
+                       text="Edit: " + station['name'],
+                       command=lambda index=station_list.index(station): self.edit_station(index),
+                       width=30).pack()
 
 
 
@@ -76,9 +80,9 @@ class StationListFrame(Frame):
 #         self.Show()
 #
 #
-#     def edit_station(self, index):
-#         self.Close()
-#         frame = StationEditFrame(None, index)
+    def edit_station(self, index):
+        print(station_list[index]['name'])
+        pass
 #
 #     def add_pressed(self):
 #         station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
@@ -221,8 +225,11 @@ class StationListFrame(Frame):
 #
 def main():
     root = Tk()
-    # root.geometry("320x240")
-    root.attributes("-fullscreen", True)
+
+    if platform.system() == 'Darwin':
+        root.geometry("320x240")
+    else:
+        root.attributes("-fullscreen", True)
     station_frame = StationListFrame(None)
     root.mainloop()
 
