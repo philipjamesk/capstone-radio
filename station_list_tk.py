@@ -20,9 +20,10 @@ class StationListFrame(Frame):
     def __init__(self, root):
         Frame.__init__(self, root)
         self.pack()
+        self.root = root
 
         # track whether the list has been saved in Frame was created
-        self.list_is_not_saved = True
+        self.list_is_saved = True
 
         # add canvas for station edit buttons for scrolling
         self.canvas=Canvas(self, highlightthickness=0)
@@ -67,13 +68,16 @@ class StationListFrame(Frame):
         self.quit_button.pack(side=LEFT)
 
     def edit_station(self, index):
+        self.pack_forget()
+        StationEditFrame(self.root, index)
         print(station_list[index]['name'])
         pass
 
     def add_pressed(self):
         station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
-        # self.pack_forget()
-        # frame = StationEditFrame(None, -1)
+        self.list_is_saved = False
+        self.pack_forget()
+        frame = StationEditFrame(self.root, -1)
         print("Add pressed")
 
     def save_pressed(self):
@@ -83,14 +87,17 @@ class StationListFrame(Frame):
                       sort_keys=True,
                       indent=4,
                       separators=(',', ': '))
-        self.list_is_not_saved = False
+        self.list_is_saved = True
         print("Save pressed")
 
     def quit_pressed(self):
         # print("Quit pressed")
         # self.pack_forget()
 
-        if self.list_is_not_saved:
+        if self.list_is_saved:
+            sys.exit()
+
+        else:
             self.savewarning = messagebox.askyesnocancel("Save Station List?",
                                "Press 'Yes' to Save & 'No' to Quit without Saving.")
 
@@ -101,8 +108,67 @@ class StationListFrame(Frame):
                 sys.exit()
 #
 #
-# class StationEditFrame(wx.Frame):
-#     def __init__(self, parent, index):
+class StationEditFrame(Frame):
+    def __init__(self, root, index):
+        Frame.__init__(self, root)
+        self.configure(width=320, height=240)
+        self.pack(expand=TRUE)
+        self.index = index
+
+        station = {'name': station_list[index]['name'],
+                   'address': station_list[index]['address'],
+                   'logo': station_list[index]['logo']}
+        name = ''
+        address = ''
+        logo = ''
+
+        name_label = ttk.Label(self, text="Station name:")
+        name_entry = ttk.Entry(self, textvariable=name)
+        name_entry.insert(0, station['name'])
+        name_label.pack(fill=X)
+        name_entry.pack(fill=X)
+
+        address_label = ttk.Label(self, text="Station Address:")
+        address_entry = ttk.Entry(self, width=32, textvariable=address)
+        address_entry.insert(0, station['address'])
+        address_label.pack(fill=X)
+        address_entry.pack(fill=X)
+
+        logo_label = ttk.Label(self, text="Station Logo:")
+        logo_entry = ttk.Entry(self, textvariable=logo)
+        logo_entry.insert(0, station['logo'])
+        logo_label.pack(fill=X)
+        logo_entry.pack(fill=X)
+#
+# # image = Image.open("img/logos/eclectic24_logo.png")
+# # image = image.resize((80, 80), PIL.Image.ANTIALIAS)
+# # photo = ImageTk.PhotoImage(image)
+# # photo_label = Label(station_frame, image=photo)
+# # photo_label.pack(side=LEFT)
+#
+# edit_logo_button = ttk.Button(station_frame, text="Select Logo")
+# edit_logo_button.pack()
+#
+# line = Frame(station_frame, height=1, width=320, pady=50, background="black")
+# line.pack()
+#
+# bottom_row = ttk.Frame(station_frame)
+# bottom_row.pack(side=BOTTOM)
+#
+# save_button = ttk.Button(bottom_row, text="Save")
+# delete_button = ttk.Button(bottom_row, text="Delete Station")
+# quit_button = ttk.Button(bottom_row, text="Quit")
+#
+# save_button.pack(side=LEFT)
+# delete_button.pack(side=LEFT)
+# quit_button.pack(side=LEFT)
+
+
+
+
+
+
+
 #         wx.Frame.__init__(self, parent)
 #         self.SetSize(320, 240)
 #         self.index = index
