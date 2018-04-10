@@ -53,7 +53,7 @@ def main_loop():
 
     # load stations into station list
     for item in data:
-        station = Station(item['address'], item['logo'], screen)
+        station = Station(item['address'], item['logo'], screen, item['name'])
         station_list.append(station)
         if station_list.index(station) == current_station:
             station.is_playing = True
