@@ -23,7 +23,7 @@ class StationListFrame(Frame):
         self.root = root
 
         # track whether the list has been saved in Frame was created
-        self.list_is_saved = True
+        self.list_is_saved = False
 
         # add canvas for station edit buttons for scrolling
         self.canvas=Canvas(self, highlightthickness=0)
@@ -69,6 +69,7 @@ class StationListFrame(Frame):
 
     def edit_station(self, index):
         self.pack_forget()
+        self.destroy()
         StationEditFrame(self.root, index)
         print(station_list[index]['name'])
         pass
@@ -77,7 +78,7 @@ class StationListFrame(Frame):
         station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
         self.list_is_saved = False
         self.pack_forget()
-        frame = StationEditFrame(self.root, -1)
+        StationEditFrame(self.root, -1)
         print("Add pressed")
 
     def save_pressed(self):
@@ -91,23 +92,18 @@ class StationListFrame(Frame):
         print("Save pressed")
 
     def quit_pressed(self):
-        # print("Quit pressed")
-        # self.pack_forget()
-
+        # Check is the list has been saved since being edited
         if self.list_is_saved:
             sys.exit()
-
         else:
             self.savewarning = messagebox.askyesnocancel("Save Station List?",
                                "Press 'Yes' to Save & 'No' to Quit without Saving.")
-
             if self.savewarning:
                 self.save_pressed()
                 sys.exit()
             elif self.savewarning == False:
                 sys.exit()
-#
-#
+
 class StationEditFrame(Frame):
     def __init__(self, root, index):
         Frame.__init__(self, root)
@@ -139,29 +135,35 @@ class StationEditFrame(Frame):
         logo_entry.insert(0, station['logo'])
         logo_label.pack(fill=X)
         logo_entry.pack(fill=X)
-#
-# # image = Image.open("img/logos/eclectic24_logo.png")
-# # image = image.resize((80, 80), PIL.Image.ANTIALIAS)
-# # photo = ImageTk.PhotoImage(image)
-# # photo_label = Label(station_frame, image=photo)
-# # photo_label.pack(side=LEFT)
-#
-# edit_logo_button = ttk.Button(station_frame, text="Select Logo")
-# edit_logo_button.pack()
-#
-# line = Frame(station_frame, height=1, width=320, pady=50, background="black")
-# line.pack()
-#
-# bottom_row = ttk.Frame(station_frame)
-# bottom_row.pack(side=BOTTOM)
-#
-# save_button = ttk.Button(bottom_row, text="Save")
-# delete_button = ttk.Button(bottom_row, text="Delete Station")
-# quit_button = ttk.Button(bottom_row, text="Quit")
-#
-# save_button.pack(side=LEFT)
-# delete_button.pack(side=LEFT)
-# quit_button.pack(side=LEFT)
+
+        ##### Possibly Add Preview of the Logo
+        #
+        # # image = Image.open("img/logos/eclectic24_logo.png")
+        # # image = image.resize((80, 80), PIL.Image.ANTIALIAS)
+        # # photo = ImageTk.PhotoImage(image)
+        # # photo_label = Label(station_frame, image=photo)
+        # # photo_label.pack(side=LEFT)
+        #
+        ##### Add file picker for choosing logo
+        #
+        # edit_logo_button = ttk.Button(station_frame, text="Select Logo")
+        # edit_logo_button.pack()
+        #
+        #####
+
+        line = Frame(self, height=2, width=320,background="black")
+        line.pack(fill=BOTH, pady=10)
+
+        bottom_row = ttk.Frame(self)
+        bottom_row.pack(side=BOTTOM, fill=BOTH, pady=10)
+
+        save_button = ttk.Button(bottom_row, text="Save")
+        delete_button = ttk.Button(bottom_row, text="Delete Station")
+        quit_button = ttk.Button(bottom_row, text="Quit")
+
+        save_button.pack(side=LEFT)
+        delete_button.pack(side=LEFT)
+        quit_button.pack(side=LEFT)
 
 
 
