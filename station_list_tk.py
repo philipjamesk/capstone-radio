@@ -71,7 +71,6 @@ class StationListFrame(Frame):
         self.pack_forget()
         self.destroy()
         StationEditFrame(self.root, index)
-        print(station_list[index]['name'])
         pass
 
     def add_pressed(self):
@@ -79,7 +78,6 @@ class StationListFrame(Frame):
         self.list_is_saved = False
         self.pack_forget()
         StationEditFrame(self.root, -1)
-        print("Add pressed")
 
     def save_pressed(self):
         with open('stations.json', 'w') as outfile:
@@ -89,7 +87,6 @@ class StationListFrame(Frame):
                       indent=4,
                       separators=(',', ': '))
         self.list_is_saved = True
-        print("Save pressed")
 
     def quit_pressed(self):
         # Check is the list has been saved since being edited
@@ -109,32 +106,30 @@ class StationEditFrame(Frame):
         Frame.__init__(self, root)
         self.configure(width=320, height=240)
         self.pack(expand=TRUE)
+        self.root = root
         self.index = index
 
         station = {'name': station_list[index]['name'],
                    'address': station_list[index]['address'],
                    'logo': station_list[index]['logo']}
-        name = ''
-        address = ''
-        logo = ''
 
         name_label = ttk.Label(self, text="Station name:")
-        name_entry = ttk.Entry(self, textvariable=name)
-        name_entry.insert(0, station['name'])
+        self.name_entry = ttk.Entry(self)
+        self.name_entry.insert(0, station['name'])
         name_label.pack(fill=X)
-        name_entry.pack(fill=X)
+        self.name_entry.pack(fill=X)
 
         address_label = ttk.Label(self, text="Station Address:")
-        address_entry = ttk.Entry(self, width=32, textvariable=address)
-        address_entry.insert(0, station['address'])
+        self.address_entry = ttk.Entry(self, width=32)
+        self.address_entry.insert(0, station['address'])
         address_label.pack(fill=X)
-        address_entry.pack(fill=X)
+        self.address_entry.pack(fill=X)
 
         logo_label = ttk.Label(self, text="Station Logo:")
-        logo_entry = ttk.Entry(self, textvariable=logo)
-        logo_entry.insert(0, station['logo'])
+        self.logo_entry = ttk.Entry(self)
+        self.logo_entry.insert(0, station['logo'])
         logo_label.pack(fill=X)
-        logo_entry.pack(fill=X)
+        self.logo_entry.pack(fill=X)
 
         ##### Possibly Add Preview of the Logo
         #
@@ -157,80 +152,34 @@ class StationEditFrame(Frame):
         bottom_row = ttk.Frame(self)
         bottom_row.pack(side=BOTTOM, fill=BOTH, pady=10)
 
-        save_button = ttk.Button(bottom_row, text="Save")
-        delete_button = ttk.Button(bottom_row, text="Delete Station")
-        quit_button = ttk.Button(bottom_row, text="Quit")
+        save_button = ttk.Button(bottom_row,
+                      text="Save",
+                      command=lambda index=self.index: self.save_station(index))
+        delete_button = ttk.Button(bottom_row,
+                        text="Delete Station",
+                        command=lambda index=self.index: self.delete_station(index))
+        cancel_button = ttk.Button(bottom_row,
+                        text="Cancel",
+                        command=self.station_exit)
 
         save_button.pack(side=LEFT)
         delete_button.pack(side=LEFT)
-        quit_button.pack(side=LEFT)
+        cancel_button.pack(side=LEFT)
 
 
+    def save_station(self, index):
+        station_list[index]['name'] = self.name_entry.get()
+        station_list[index]['address'] = self.address_entry.get()
+        station_list[index]['logo'] = self.logo_entry.get()
+        self.station_exit()
 
+    def delete_station(self, index):
+        station_list.pop(index)
+        self.station_exit()
 
-
-
-
-#         wx.Frame.__init__(self, parent)
-#         self.SetSize(320, 240)
-#         self.index = index
-#         panel = wx.Panel(self)
-#
-#         vbox = wx.BoxSizer(wx.VERTICAL)
-#
-#         name_box = wx.BoxSizer(wx.HORIZONTAL)
-#         name_label = wx.StaticText(panel, label='Name:')
-#         name_box.Add(name_label, flag=wx.RIGHT, border=8)
-#         self.name_text = wx.TextCtrl(panel, value=station_list[index]['name'])
-#         # self.name_text.Bind(wx.E)
-#         name_box.Add(self.name_text, proportion=1)
-#         vbox.Add(name_box, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=10)
-#
-#         address_box = wx.BoxSizer(wx.HORIZONTAL)
-#         address_label = wx.StaticText(panel, label='Address:')
-#         address_box.Add(address_label, flag=wx.RIGHT, border=8)
-#         self.address_text = wx.TextCtrl(panel, value=station_list[index]['address'])
-#         address_box.Add(self.address_text, proportion=1)
-#         vbox.Add(address_box, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=10)
-#
-#         logo_box = wx.BoxSizer(wx.HORIZONTAL)
-#         logo_label = wx.StaticText(panel, label='Logo:')
-#         logo_box.Add(logo_label, flag=wx.RIGHT, border=8)
-#         self.logo_text = wx.TextCtrl(panel, value=station_list[index]['logo'])
-#         logo_box.Add(self.logo_text, proportion=1)
-#         vbox.Add(logo_box, flag=wx.EXPAND|wx.LEFT|wx.RIGHT|wx.TOP, border=10)
-#
-#         cancelButton = wx.Button(panel, label="Cancel", pos=(15, 185))
-#         deleteButton = wx.Button(panel, label="Delete", pos=(115, 185))
-#         saveStationButton = wx.Button(panel, label="Save", pos=(215, 185))
-#
-#         cancelButton.Bind(wx.EVT_BUTTON,
-#                           lambda event: self.station_exit())
-#
-#         deleteButton.Bind(wx.EVT_BUTTON,
-#                           lambda event,
-#                           index=index: self.delete_station(index))
-#
-#         saveStationButton.Bind(wx.EVT_BUTTON,
-#                                lambda event,
-#                                index=index: self.save_station_pressed(index))
-#
-#         panel.SetSizer(vbox)
-#         self.Show()
-#
-#     def save_station_pressed(self, index):
-#         station_list[index]['name'] = self.name_text.GetValue()
-#         station_list[index]['address'] = self.address_text.GetValue()
-#         station_list[index]['logo'] = self.logo_text.GetValue()
-#         self.station_exit()
-#
-#     def delete_station(self, index):
-#         station_list.pop(index)
-#         self.station_exit()
-#
-#     def station_exit(self):
-#         self.Close()
-#         frame = StationListFrame(None)
+    def station_exit(self):
+        self.destroy()
+        StationListFrame(self.root)
 #
 # def exit_station_list():
 #     call(["python3", "radio.py"])
