@@ -24,136 +24,124 @@ class StationListFrame(Frame):
         self.list_is_not_saved = True
 
         # add canvas for station edit buttons for scrolling
-        canvas=Canvas(self, highlightthickness=0)
-        frame=Frame(canvas)
-        myscrollbar=Scrollbar(self,orient="vertical",command=canvas.yview)
-        canvas.configure(yscrollcommand=myscrollbar.set)
+        self.canvas=Canvas(self, highlightthickness=0)
+        self.frame=Frame(self.canvas)
+        self.myscrollbar=Scrollbar(self,orient="vertical",command=self.canvas.yview)
+        self.canvas.configure(yscrollcommand=self.myscrollbar.set)
 
-        myscrollbar.pack(side="right",fill="y")
-        canvas.pack(side="left")
-        canvas.create_window((0,0),window=frame,anchor='nw')
+        self.myscrollbar.pack(side="right",fill="y")
+        self.canvas.pack()
+        self.canvas.create_window((0,0),window=self.frame,anchor='nw')
 
         def myfunction(event):
-            canvas.configure(scrollregion=canvas.bbox("all"),width=320,height=200)
+            self.canvas.configure(scrollregion=self.canvas.bbox("all"),width=320,height=200)
 
-        frame.bind("<Configure>",myfunction)
+        self.frame.bind("<Configure>",myfunction)
 
         for station in station_list:
-            ttk.Button(frame,
+            ttk.Button(self.frame,
                        text="Edit: " + station['name'],
                        command=lambda index=station_list.index(station): self.edit_station(index),
                        width=30).pack()
 
+        self.line = Frame(self, height=1, width=320, background="black")
+        self.line.pack()
+
+        self.bottomrow = Frame(self, pady=5)
+        self.bottomrow.pack()
 
 
-#         # add scrolled panel for list of stations
-#         spanel = sp.ScrolledPanel(panel)
-#         spanel.SetSize(320, 180)
-#         row_sizer = wx.BoxSizer(wx.VERTICAL)
-#
-#         # add edit station buttons
-#         index = 0
-#         station_buttons = []
-#         for station in station_list:
-#             btn = wx.Button(spanel, label="Edit: " + station['name'])
-#             station_buttons.append(btn)
-#             row_sizer.Add(btn, 0, wx.EXPAND)
-#             station_buttons[index].Bind(wx.EVT_BUTTON,
-#                                         lambda event,
-#                                         index=index:
-#                                         self.edit_station(index))
-#             index += 1
-#
-#         # add system button to panel
-#         quitButton = wx.Button(panel, label="Quit", pos=(15, 185))
-#         addButton = wx.Button(panel, label="Add Station", pos=(115, 185))
-#         saveButton = wx.Button(panel, label="Save", pos=(215, 185))
-#
-#         quitButton.Bind(wx.EVT_BUTTON, lambda event: self.quit_pressed())
-#         addButton.Bind(wx.EVT_BUTTON, lambda event: self.add_pressed())
-#         saveButton.Bind(wx.EVT_BUTTON, lambda event: self.save_pressed())
-#
-#         spanel.SetSizer(row_sizer)
-#         spanel.SetupScrolling()
-#
-#         panel.SetSizer(sizer)
-#         self.Show()
-#
-#
+
+        self.save_button = ttk.Button(self.bottomrow,
+                           text="Save",
+                           command=self.save_pressed)
+        self.add_button = ttk.Button(self.bottomrow,
+                          text="Add Station",
+                          command=self.add_pressed)
+        self.quit_button = ttk.Button(self.bottomrow,
+                           command=self.quit_pressed,
+                           text="Quit")
+        self.save_button.pack(side=LEFT)
+        self.add_button.pack(side=LEFT)
+        self.quit_button.pack(side=LEFT)
+
     def edit_station(self, index):
         print(station_list[index]['name'])
         pass
-#
-#     def add_pressed(self):
-#         station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
-#         self.Close()
-#         frame = StationEditFrame(None, -1)
-#
-#     def save_pressed(self):
-#         with open('stations.json', 'w') as outfile:
-#             json.dump(station_list,
-#                       outfile,
-#                       sort_keys=True,
-#                       indent=4,
-#                       separators=(',', ': '))
-#         self.list_is_not_saved = False
-#
-#     def quit_pressed(self):
-#         if self.list_is_not_saved:
-#             dlg = wx.Dialog(self, title="Warning!", size=(300, 180), pos=(10, 20))
-#             dlg_panel = wx.Panel(dlg)
-#             dlg_sizer = wx.BoxSizer(wx.VERTICAL)
-#
-#             label = wx.StaticText(dlg_panel,
-#                     label="Do you want to save before quitting?")
-#
-#             dlg_sizer.Add(-1, 10)
-#             dlg_sizer.Add(label, -1, wx.ALIGN_CENTER)
-#
-#             dlg_sizer.Add(-1, 10)
-#             button_sizer = wx.BoxSizer(wx.HORIZONTAL)
-#
-#             noButton = wx.Button(dlg_panel, label="No", size=(70, 30))
-#             # cancelButton = wx.Button(dlg_panel, label="Cancel", size=(70,30))
-#             yesButton = wx.Button(dlg_panel, label="YES", size=(70, 30))
-#
-#             noButton.Bind(wx.EVT_BUTTON,
-#                           lambda event,
-#                           dlg=dlg:
-#                           self.no_pressed(dlg))
-#
-#             # cancelButton.Bind(wx.EVT_BUTTON,
-#             #                   lambda event,
-#             #                   dlg=dlg:
-#             #                   self.cancel_pressed(dlg))
-#
-#             yesButton.Bind(wx.EVT_BUTTON,
-#                            lambda event,
-#                            dlg=dlg:
-#                            self.yes_pressed(dlg))
-#
-#             button_sizer.Add(noButton, 0)
-#             # button_sizer.Add(cancelButton, 0)
-#             button_sizer.Add(yesButton, 0)
-#
-#             dlg_sizer.Add(button_sizer, -1, wx.ALIGN_CENTER)
-#             dlg_panel.SetSizer(dlg_sizer)
-#             dlg.ShowModal()
-#             dlg.Destroy()
-#         else:
-#             exit_station_list()
-#
-#     def no_pressed(self, dlg):
-#         dlg.Destroy()
-#         exit_station_list()
-#
-#     # def cancel_pressed(self, dlg):
-#     #     dlg.Destroy()
-#
-#     def yes_pressed(self, dlg):
-#         dlg.Destroy()
-#         self.save_pressed()
-#         self.quit_pressed()
+
+    def add_pressed(self):
+        # station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
+        # self.Close()
+        # frame = StationEditFrame(None, -1)
+        print("Add pressed")
+
+    def save_pressed(self):
+        # with open('stations.json', 'w') as outfile:
+        #     json.dump(station_list,
+        #               outfile,
+        #               sort_keys=True,
+        #               indent=4,
+        #               separators=(',', ': '))
+        # self.list_is_not_saved = False
+        print("Save pressed")
+
+    def quit_pressed(self):
+        print("Quit pressed")
+        # if self.list_is_not_saved:
+        #     dlg = wx.Dialog(self, title="Warning!", size=(300, 180), pos=(10, 20))
+        #     dlg_panel = wx.Panel(dlg)
+        #     dlg_sizer = wx.BoxSizer(wx.VERTICAL)
+        #
+        #     label = wx.StaticText(dlg_panel,
+        #             label="Do you want to save before quitting?")
+        #
+        #     dlg_sizer.Add(-1, 10)
+        #     dlg_sizer.Add(label, -1, wx.ALIGN_CENTER)
+        #
+        #     dlg_sizer.Add(-1, 10)
+        #     button_sizer = wx.BoxSizer(wx.HORIZONTAL)
+        #
+        #     noButton = wx.Button(dlg_panel, label="No", size=(70, 30))
+        #     # cancelButton = wx.Button(dlg_panel, label="Cancel", size=(70,30))
+        #     yesButton = wx.Button(dlg_panel, label="YES", size=(70, 30))
+        #
+        #     noButton.Bind(wx.EVT_BUTTON,
+        #                   lambda event,
+        #                   dlg=dlg:
+        #                   self.no_pressed(dlg))
+        #
+        #     # cancelButton.Bind(wx.EVT_BUTTON,
+        #     #                   lambda event,
+        #     #                   dlg=dlg:
+        #     #                   self.cancel_pressed(dlg))
+        #
+        #     yesButton.Bind(wx.EVT_BUTTON,
+        #                    lambda event,
+        #                    dlg=dlg:
+        #                    self.yes_pressed(dlg))
+        #
+        #     button_sizer.Add(noButton, 0)
+        #     # button_sizer.Add(cancelButton, 0)
+        #     button_sizer.Add(yesButton, 0)
+        #
+        #     dlg_sizer.Add(button_sizer, -1, wx.ALIGN_CENTER)
+        #     dlg_panel.SetSizer(dlg_sizer)
+        #     dlg.ShowModal()
+        #     dlg.Destroy()
+        # else:
+        #     exit_station_list()
+
+    def no_pressed(self, dlg):
+        dlg.Destroy()
+        exit_station_list()
+
+    # def cancel_pressed(self, dlg):
+    #     dlg.Destroy()
+
+    def yes_pressed(self, dlg):
+        dlg.Destroy()
+        self.save_pressed()
+        self.quit_pressed()
 #
 #
 # class StationEditFrame(wx.Frame):
