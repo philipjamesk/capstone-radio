@@ -91,65 +91,14 @@ class StationListFrame(Frame):
         # self.pack_forget()
 
         if self.list_is_not_saved:
-            self.quitwarning = messagebox.askyesnocancel("Question", "Continue playing?")
+            self.savewarning = messagebox.askyesnocancel("Save Station List?",
+                               "Press 'Yes' to Save & 'No' to Quit without Saving.")
 
-
-        sys.exit()
-        # if self.list_is_not_saved:
-        #     dlg = wx.Dialog(self, title="Warning!", size=(300, 180), pos=(10, 20))
-        #     dlg_panel = wx.Panel(dlg)
-        #     dlg_sizer = wx.BoxSizer(wx.VERTICAL)
-        #
-        #     label = wx.StaticText(dlg_panel,
-        #             label="Do you want to save before quitting?")
-        #
-        #     dlg_sizer.Add(-1, 10)
-        #     dlg_sizer.Add(label, -1, wx.ALIGN_CENTER)
-        #
-        #     dlg_sizer.Add(-1, 10)
-        #     button_sizer = wx.BoxSizer(wx.HORIZONTAL)
-        #
-        #     noButton = wx.Button(dlg_panel, label="No", size=(70, 30))
-        #     # cancelButton = wx.Button(dlg_panel, label="Cancel", size=(70,30))
-        #     yesButton = wx.Button(dlg_panel, label="YES", size=(70, 30))
-        #
-        #     noButton.Bind(wx.EVT_BUTTON,
-        #                   lambda event,
-        #                   dlg=dlg:
-        #                   self.no_pressed(dlg))
-        #
-        #     # cancelButton.Bind(wx.EVT_BUTTON,
-        #     #                   lambda event,
-        #     #                   dlg=dlg:
-        #     #                   self.cancel_pressed(dlg))
-        #
-        #     yesButton.Bind(wx.EVT_BUTTON,
-        #                    lambda event,
-        #                    dlg=dlg:
-        #                    self.yes_pressed(dlg))
-        #
-        #     button_sizer.Add(noButton, 0)
-        #     # button_sizer.Add(cancelButton, 0)
-        #     button_sizer.Add(yesButton, 0)
-        #
-        #     dlg_sizer.Add(button_sizer, -1, wx.ALIGN_CENTER)
-        #     dlg_panel.SetSizer(dlg_sizer)
-        #     dlg.ShowModal()
-        #     dlg.Destroy()
-        # else:
-        #     exit_station_list()
-
-    def no_pressed(self, dlg):
-        dlg.Destroy()
-        exit_station_list()
-
-    # def cancel_pressed(self, dlg):
-    #     dlg.Destroy()
-
-    def yes_pressed(self, dlg):
-        dlg.Destroy()
-        self.save_pressed()
-        self.quit_pressed()
+            if self.savewarning:
+                self.save_pressed()
+                sys.exit()
+            elif self.savewarning == False:
+                sys.exit()
 #
 #
 # class StationEditFrame(wx.Frame):
