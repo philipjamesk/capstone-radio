@@ -9,9 +9,7 @@ This is the python code for my Raspberry Pi internet radio that I am building fo
 * wxPython
 
 ### TODO
-* file picker for adding logo
-* check logo to be valid image file
+* master class launches radio and edit_list
 * check address to valid web address
 * station_list.py should relaunch radio.py
-*
-* radio.py should check stations on loading especially logo in logo.py
+* file picker for adding logo
