@@ -85,6 +85,7 @@ def main_loop():
         time.sleep(.1)
         current_station = check_events(current_station, screen_rect)
 
+
 def check_events(current_station, screen_rect):
     # Will eventually be replaced with GPI Controls from Rotatry Encoder
 
@@ -99,17 +100,18 @@ def check_events(current_station, screen_rect):
             if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
                 current_station = station_list.index(station)
                 playStation(current_station)
-    pygame.display.flip()
     return current_station
 
 
 def move_right():
     for station in station_list:
         station.logo.changex(25)
+    pygame.display.flip()
 
 def move_left():
     for station in station_list:
         station.logo.changex(-25)
+    pygame.display.flip()
 
 def place_logos(current_station):
     """Initially places the logos based on the current_station."""
