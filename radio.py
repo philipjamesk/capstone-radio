@@ -99,6 +99,7 @@ def check_events(current_station, screen_rect):
             if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
                 current_station = station_list.index(station)
                 playStation(current_station)
+    pygame.display.flip()
     return current_station
 
 
