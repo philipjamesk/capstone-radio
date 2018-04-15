@@ -25,6 +25,7 @@ radio = vlc.MediaListPlayer()
 sw = 17
 clk = 19
 dt = 20
+GPIO.setmode(GPIO.BCM)
 GPIO.setup(sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
