@@ -106,12 +106,10 @@ def check_events(current_station, screen_rect):
 def move_right():
     for station in station_list:
         station.logo.changex(25)
-    pygame.display.flip()
 
 def move_left():
     for station in station_list:
         station.logo.changex(-25)
-    pygame.display.flip()
 
 def place_logos(current_station):
     """Initially places the logos based on the current_station."""
@@ -143,7 +141,6 @@ def draw_screen(screen, screen_rect):
     screen.blit(dial_marks, dial_marks_rect)
     screen.blit(red_line, red_line_rect)
 
-
     pygame.display.flip()
 
 # Play a stream
@@ -162,14 +159,14 @@ def rotation_decode(clk):
 
     if (Switch_A == 1) and (Switch_B == 0) :
         move_right()
+        draw_screen(screen, screen_rect)
         return
-
     elif (Switch_A == 1) and (Switch_B == 1 ):
         move_left()
+        draw_screen(screen, screen_rect)
         return
     else:
         return
-    pygame.display.flip()
 
 # run the main loop
 GPIO.add_event_detect(clk, GPIO.RISING, callback=rotation_decode, bouncetime=2)
