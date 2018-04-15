@@ -21,11 +21,13 @@ screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
 playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
 
-# Button Map Temporary GPIO settings
-button_map = {23:'up', 22:'', 27:'down', 17:'escape'}
-GPIO.setmode(GPIO.BCM)
-for k in button_map.keys():
-    GPIO.setup(k, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+# GPIO Set Up for Rotary Encoder and Switch
+sw = 17
+clk = 19
+dt = 20
+GPIO.setup(sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def main_loop():
     # Put all the initial settings here
@@ -82,6 +84,7 @@ def main_loop():
         time.sleep(.1)
         current_station = check_events(current_station, screen_rect)
 
+def
 
 def check_events(current_station, screen_rect):
     # Will eventually be replaced with GPI Controls from Rotatry Encoder
@@ -156,6 +159,21 @@ def playStation(station):
 def pickleStation(current_station):
     pickle.dump(current_station, open( "current_station.pickle", "wb" ))
 
+def rotation_decode(clk):
+    # read both of the switches
+    Switch_A = GPIO.input(clk)
+    Switch_B = GPIO.input(dt)
+
+    if (Switch_A == 1) and (Switch_B == 0) :
+        move_right()
+        return
+
+    elif (Switch_A == 1) and (Switch_B == 1 ):
+        move_left()
+        return
+    else:
+        return
 
 # run the main loop
+GPIO.add_event_detect(clk, GPIO.RISING, callback=rotation_decode, bouncetime=2)
 main_loop()
