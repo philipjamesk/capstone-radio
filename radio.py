@@ -169,6 +169,7 @@ def rotation_decode(clk):
         return
     else:
         return
+    pygame.display.flip()
 
 # run the main loop
 GPIO.add_event_detect(clk, GPIO.RISING, callback=rotation_decode, bouncetime=2)
