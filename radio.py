@@ -34,7 +34,6 @@ def main_loop():
     # Put all the initial settings here
     pygame.display.init()
     pygame.mouse.set_visible(False)
-    screen_rect = screen.get_rect()
 
 
     # find path to folder and change directory
@@ -76,7 +75,9 @@ def main_loop():
         if station.is_playing:
             playStation(station_list.index(station))
 
-    draw_screen(screen, screen_rect)
+    draw_screen(screen)
+
+#    GPIO.add_event_detect(clk, GPIO.RISING, callback=rotation_decode(screen_rect), bouncetime=2)
 
     while True:
         # This is where pygame will listen for keypresses, update the logos
@@ -118,10 +119,11 @@ def place_logos(current_station):
         station.logo.setx(x)
         x += 100
 
-def draw_screen(screen, screen_rect):
+def draw_screen(screen):
     # Set the background color
     bg_color = (232, 222, 199)
     screen.fill(bg_color)
+    screen_rect = screen.get_rect()
 
     # Add the rest to the display
     dial_marks = pygame.image.load('img/display/radio-marks.png')
@@ -159,15 +161,15 @@ def rotation_decode(clk):
 
     if (Switch_A == 1) and (Switch_B == 0) :
         move_right()
-        draw_screen(screen, screen_rect)
+        draw_screen(screen)
         return
     elif (Switch_A == 1) and (Switch_B == 1 ):
         move_left()
-        draw_screen(screen, screen_rect)
+        draw_screen(screen)
         return
     else:
         return
 
-# run the main loop
 GPIO.add_event_detect(clk, GPIO.RISING, callback=rotation_decode, bouncetime=2)
+# run the main loop
 main_loop()
