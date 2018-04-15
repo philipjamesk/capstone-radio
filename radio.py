@@ -84,10 +84,10 @@ def main_loop():
         # and flip the screen
         # draw_logos(logos, screen)
         time.sleep(.1)
-        current_station = check_events(current_station, screen_rect)
+        current_station = check_events(current_station)
 
 
-def check_events(current_station, screen_rect):
+def check_events(current_station):
     # Will eventually be replaced with GPI Controls from Rotatry Encoder
 
 
