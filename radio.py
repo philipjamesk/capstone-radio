@@ -90,16 +90,15 @@ def check_events(current_station, screen_rect):
 
 
     if GPIO.input(sw) == False:
-        if v == 'escape':
-             sys.exit()
-        if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
-            radio.stop()
-            current_station = -1
-        if current_station == -1:
-            for station in station_list:
-                if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
-                    current_station = station_list.index(station)
-                    playStation(current_station)
+         sys.exit()
+    if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
+        radio.stop()
+        current_station = -1
+    if current_station == -1:
+        for station in station_list:
+            if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
+                current_station = station_list.index(station)
+                playStation(current_station)
     return current_station
 
 
