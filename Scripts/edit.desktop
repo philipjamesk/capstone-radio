@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Name=Edit
+Exec=/home/pi/Documents/radio/edit.py
+Icon=/home/pi/Scripts/images/edit.png
+Terminal=true
+Type=Application
+Categories=Development
