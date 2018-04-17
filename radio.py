@@ -22,9 +22,9 @@ playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
 
 # GPIO Set Up for Rotary Encoder and Switch
-sw = 17
-clk = 19
-dt = 20
+sw = 16
+clk = 6
+dt = 5
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
