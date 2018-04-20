@@ -22,9 +22,9 @@ playlist = vlc.MediaList()
 radio = vlc.MediaListPlayer()
 
 # GPIO Set Up for Rotary Encoder and Switch
-sw = 16
-clk = 6
-dt = 5
+sw = 16 # 16 for Production Radio, 17 for Test Radio
+clk = 6 # 6 for Production Radio, 23 for Test Radio
+dt = 5 # 5 for Production Radio, 27 for Test Radio
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -77,8 +77,6 @@ def main_loop():
 
     draw_screen(screen)
 
-#    GPIO.add_event_detect(clk, GPIO.RISING, callback=rotation_decode(screen_rect), bouncetime=2)
-
     while True:
         # This is where pygame will listen for keypresses, update the logos
         # and flip the screen
@@ -92,7 +90,8 @@ def check_events(current_station):
 
 
     if GPIO.input(sw) == False:
-         sys.exit()
+
+        sys.exit()
     if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
         radio.stop()
         current_station = -1
