@@ -107,8 +107,7 @@ class Radio():
 
         if current_station == -1:
             for station in station_list:
-                if station.logo.rect.centerx >= 120 and
-                   station.logo.rect.centerx <= 200:
+                if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
                     current_station = self.station_list.index(station)
                     self.playStation(current_station)
         return current_station
