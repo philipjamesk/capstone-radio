@@ -112,7 +112,7 @@ class Radio():
                     self.playStation(current_station)
         return current_station
 
-    def rotation_decode(clk):
+    def rotation_decode(self, clk):
         # read both of the switches
         Switch_A = GPIO.input(self.clk)
         Switch_B = GPIO.input(self.dt)
