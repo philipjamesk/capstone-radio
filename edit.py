@@ -2,7 +2,6 @@
 
 import sys
 import os
-import platform                    ### <---- For testing only
 from subprocess import call
 
 import json
@@ -11,16 +10,24 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 
-# find path to folder and change directory
-os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
-# load the station list array from the JSON file
-station_list = json.loads(open("stations.json").read())
+class Editor(object):
+    def __init__(self):
+        self.root = Tk()
+        self.root.attributes("-fullscreen", True)
+        # find path to folder and change directory
+        os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
+        # load the station list array from the JSON file
+        self.station_list = json.loads(open("stations.json").read())
+        self.station_frame = StationListFrame(None, self.station_list)
+        self.root.mainloop()
+
 
 class StationListFrame(Frame):
-    def __init__(self, root):
+    def __init__(self, root, station_list):
         Frame.__init__(self, root)
         self.pack()
         self.root = root
+        self.station_list = station_list
 
         # track whether the list has been saved in Frame was created
         self.list_is_saved = False
@@ -40,10 +47,10 @@ class StationListFrame(Frame):
 
         self.frame.bind("<Configure>",myfunction)
 
-        for station in station_list:
+        for station in self.station_list:
             ttk.Button(self.frame,
                        text="Edit: " + station['name'],
-                       command=lambda index=station_list.index(station): self.edit_station(index),
+                       command=lambda index=self.station_list.index(station): self.edit_station(index),
                        width=30).pack()
 
         self.line = Frame(self, height=1, width=320, background="black")
@@ -70,18 +77,18 @@ class StationListFrame(Frame):
     def edit_station(self, index):
         self.pack_forget()
         self.destroy()
-        StationEditFrame(self.root, index)
+        StationEditFrame(self.root, index, self.station_list)
         pass
 
     def add_pressed(self):
-        station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
+        self.station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
         self.list_is_saved = False
         self.pack_forget()
-        StationEditFrame(self.root, -1)
+        StationEditFrame(self.root, -1, self.station_list)
 
     def save_pressed(self):
         with open('stations.json', 'w') as outfile:
-            json.dump(station_list,
+            json.dump(self.station_list,
                       outfile,
                       sort_keys=True,
                       indent=4,
@@ -102,16 +109,17 @@ class StationListFrame(Frame):
                 sys.exit()
 
 class StationEditFrame(Frame):
-    def __init__(self, root, index):
+    def __init__(self, root, index, station_list):
         Frame.__init__(self, root)
         self.configure(width=320, height=240)
         self.pack(expand=TRUE)
         self.root = root
         self.index = index
+        self.station_list = station_list
 
-        station = {'name': station_list[index]['name'],
-                   'address': station_list[index]['address'],
-                   'logo': station_list[index]['logo']}
+        station = {'name': self.station_list[index]['name'],
+                   'address': self.station_list[index]['address'],
+                   'logo': self.station_list[index]['logo']}
 
         name_label = ttk.Label(self, text="Station name:")
         self.name_entry = ttk.Entry(self)
@@ -130,21 +138,6 @@ class StationEditFrame(Frame):
         self.logo_entry.insert(0, station['logo'])
         logo_label.pack(fill=X)
         self.logo_entry.pack(fill=X)
-
-        ##### Possibly Add Preview of the Logo
-        #
-        # # image = Image.open("img/logos/eclectic24_logo.png")
-        # # image = image.resize((80, 80), PIL.Image.ANTIALIAS)
-        # # photo = ImageTk.PhotoImage(image)
-        # # photo_label = Label(station_frame, image=photo)
-        # # photo_label.pack(side=LEFT)
-        #
-        ##### Add file picker for choosing logo
-        #
-        # edit_logo_button = ttk.Button(station_frame, text="Select Logo")
-        # edit_logo_button.pack()
-        #
-        #####
 
         line = Frame(self, height=2, width=320,background="black")
         line.pack(fill=BOTH, pady=10)
@@ -168,32 +161,21 @@ class StationEditFrame(Frame):
 
 
     def save_station(self, index):
-        station_list[index]['name'] = self.name_entry.get()
-        station_list[index]['address'] = self.address_entry.get()
-        station_list[index]['logo'] = self.logo_entry.get()
+        self.station_list[index]['name'] = self.name_entry.get()
+        self.station_list[index]['address'] = self.address_entry.get()
+        self.station_list[index]['logo'] = self.logo_entry.get()
         self.station_exit()
 
     def delete_station(self, index):
-        station_list.pop(index)
+        self.station_list.pop(index)
         self.station_exit()
 
     def station_exit(self):
         self.destroy()
-        StationListFrame(self.root)
-#
-# def exit_station_list():
-#     call(["python3", "radio.py"])
-#     sys.exit()
-#
-def main():
-    root = Tk()
+        StationListFrame(self.root, self.station_list)
 
-    if platform.system() == 'Darwin':
-        root.geometry("320x240")
-    else:
-        root.attributes("-fullscreen", True)
-    station_frame = StationListFrame(None)
-    root.mainloop()
+def main():
+    editor = Editor()
 
 if __name__ == '__main__':
     main()

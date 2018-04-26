@@ -6,169 +6,128 @@ import time
 import pickle
 import json
 
-import RPi.GPIO as GPIO
-
 import pygame
 import vlc
 
 from station import Station
 from logo import Logo
 
-# Make a list of stations
-station_list = []
-os.putenv('SDL_FBDEV', '/dev/fb1')
-screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
-playlist = vlc.MediaList()
-radio = vlc.MediaListPlayer()
 
-# GPIO Set Up for Rotary Encoder and Switch
-sw = 16 # 16 for Production Radio, 17 for Test Radio
-clk = 6 # 6 for Production Radio, 23 for Test Radio
-dt = 5 # 5 for Production Radio, 27 for Test Radio
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-GPIO.setup(dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+class Radio():
+    """Creates a Radio class, this will contain the vlc player and the
+        pygame display."""
+    def __init__(self):
+        pygame.display.init()
+        self.screen = pygame.display.set_mode((320,240))
+        #
+        # self.screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
+        #
+        self.playlist = vlc.MediaList()
+        self.player = vlc.MediaListPlayer()
 
-def main_loop():
-    # Put all the initial settings here
-    pygame.display.init()
-    pygame.mouse.set_visible(False)
+        # find path to folder and change directory
+        os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
 
+        # unpickle last saved playing station otherwise play index 0
+        try:
+            current_station = pickle.load(open("current_station.pickle", "rb" ))
+        except:
+            current_station = 0
 
-    # find path to folder and change directory
-    os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
+        # import station list from JSON file
+        self.json_data = open("stations.json").read()
+        self.data = json.loads(self.json_data)
 
-    # unpickle last saved playing station otherwise play index 0
-    try:
-        current_station = pickle.load(open("current_station.pickle", "rb" ))
-    except:
-        current_station = 0
+        # double check that the current_station is still in the station list
+        if current_station >= len(self.data):
+            current_station = 0
 
-    # import station list from JSON file
-    json_data = open("stations.json").read()
-    data = json.loads(json_data)
+        # load stations into station list
+        self.station_list = []
+        for item in self.data:
+            station = Station(item['address'], item['logo'], self.screen, item['name'])
+            self.station_list.append(station)
+            if self.station_list.index(station) == current_station:
+                station.is_playing = True
 
-    # double check that the current_station is still in the station list
-    if current_station >= len(data):
-        current_station = 0
+        # add stations to MediaList
+        for station in self.station_list:
+            self.playlist.add_media(station.address)
 
-    # load stations into station list
-    for item in data:
-        station = Station(item['address'], item['logo'], screen, item['name'])
-        station_list.append(station)
-        if station_list.index(station) == current_station:
-            station.is_playing = True
+        # Set player MediaList
+        self.player.set_media_list(self.playlist)
 
-    # add stations to MediaList
-    for station in station_list:
-        playlist.add_media(station.address)
+        # Place logos according to initial playing station
+        self.place_logos(current_station)
 
-    # Set radio MediaList
-    radio.set_media_list(playlist)
+        # play current station
+        for station in self.station_list:
+            if station.is_playing:
+                self.playStation(self.station_list.index(station))
 
-    # Place logos according to initial playing station
-    place_logos(current_station)
+        pygame.mouse.set_visible(False)
+        self.draw_screen()
 
-    # play current station
-    for station in station_list:
-        if station.is_playing:
-            playStation(station_list.index(station))
-
-    draw_screen(screen)
-
-    while True:
-        # This is where pygame will listen for keypresses, update the logos
-        # and flip the screen
-        # draw_logos(logos, screen)
-        time.sleep(.1)
-        current_station = check_events(current_station)
+        playing = True
+        while playing:
+            # Watch for keyboard and mouse events.
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    playing = False
+            time.sleep(.1)
 
 
-def check_events(current_station):
-    # Will eventually be replaced with GPI Controls from Rotatry Encoder
+    def move_right(self):
+        for station in self.station_list:
+            station.logo.changex(25)
+
+    def move_left(self):
+        for station in self.station_list:
+            station.logo.changex(-25)
+
+    def place_logos(self, current_station):
+        """Initially places the logos based on the current_station."""
+        x = 160 - (current_station * 100)
+        for station in self.station_list:
+            station.logo.setx(x)
+            x += 100
+
+    def draw_screen(self):
+        # Set the background color
+        bg_color = (232, 222, 199)
+        self.screen.fill(bg_color)
+        screen_rect = self.screen.get_rect()
+        # Add the rest to the display
+        dial_marks = pygame.image.load('img/display/radio-marks.png')
+        red_line = pygame.image.load('img/display/red-line.png')
+        dial_marks_rect = dial_marks.get_rect()
+        red_line_rect = red_line.get_rect()
+        dial_marks_rect.centerx = screen_rect.centerx
+        dial_marks_rect.centery = screen_rect.centery
+        red_line_rect.centerx = screen_rect.centerx
+        red_line_rect.centery = screen_rect.centery
+        # Add station logos to screen
+        for station in self.station_list:
+            station.logo.blitme()
+
+        # Add dial marks and red line to screen
+        self.screen.blit(dial_marks, dial_marks_rect)
+        self.screen.blit(red_line, red_line_rect)
+
+        pygame.display.flip()
+
+    # Play a stream
+    def playStation(self, station):
+        self.player.play_item_at_index(station)
+        self.pickleStation(station)
+
+    # Pickle the current station
+    def pickleStation(self, current_station):
+        pickle.dump(current_station, open( "current_station.pickle", "wb" ))
 
 
-    if GPIO.input(sw) == False:
+def main():
+    radio = Radio()
 
-        sys.exit()
-    if station_list[current_station].logo.rect.centerx <= 120 or station_list[current_station].logo.rect.centerx >= 200:
-        radio.stop()
-        current_station = -1
-    if current_station == -1:
-        for station in station_list:
-            if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
-                current_station = station_list.index(station)
-                playStation(current_station)
-    return current_station
-
-
-def move_right():
-    for station in station_list:
-        station.logo.changex(25)
-
-def move_left():
-    for station in station_list:
-        station.logo.changex(-25)
-
-def place_logos(current_station):
-    """Initially places the logos based on the current_station."""
-    x = 160 - (current_station * 100)
-    for station in station_list:
-        station.logo.setx(x)
-        x += 100
-
-def draw_screen(screen):
-    # Set the background color
-    bg_color = (232, 222, 199)
-    screen.fill(bg_color)
-    screen_rect = screen.get_rect()
-
-    # Add the rest to the display
-    dial_marks = pygame.image.load('img/display/radio-marks.png')
-    red_line = pygame.image.load('img/display/red-line.png')
-    dial_marks_rect = dial_marks.get_rect()
-    red_line_rect = red_line.get_rect()
-    dial_marks_rect.centerx = screen_rect.centerx
-    dial_marks_rect.centery = screen_rect.centery
-    red_line_rect.centerx = screen_rect.centerx
-    red_line_rect.centery = screen_rect.centery
-
-    # Add station logos to screen
-    for station in station_list:
-        station.logo.blitme()
-
-    # Add dial marks and red line to screen
-    screen.blit(dial_marks, dial_marks_rect)
-    screen.blit(red_line, red_line_rect)
-
-    pygame.display.flip()
-
-# Play a stream
-def playStation(station):
-    radio.play_item_at_index(station)
-    pickleStation(station)
-
-# Pickle the current station
-def pickleStation(current_station):
-    pickle.dump(current_station, open( "current_station.pickle", "wb" ))
-
-def rotation_decode(clk):
-    # read both of the switches
-    Switch_A = GPIO.input(clk)
-    Switch_B = GPIO.input(dt)
-
-    if (Switch_A == 1) and (Switch_B == 0) :
-        move_right()
-        draw_screen(screen)
-        return
-    elif (Switch_A == 1) and (Switch_B == 1 ):
-        move_left()
-        draw_screen(screen)
-        return
-    else:
-        return
-
-GPIO.add_event_detect(clk, GPIO.RISING, callback=rotation_decode, bouncetime=2)
-# run the main loop
-main_loop()
+if __name__ == '__main__':
+    main()
