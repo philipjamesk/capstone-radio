@@ -118,11 +118,11 @@ class Radio():
         Switch_B = GPIO.input(self.dt)
 
         if (Switch_A == 1) and (Switch_B == 0) :
-            move_right()
+            self.move_right()
             self.draw_screen()
             return
         elif (Switch_A == 1) and (Switch_B == 1 ):
-            move_left()
+            self.move_left()
             self.draw_screen()
             return
         else:
