@@ -6,6 +6,8 @@ import time
 import pickle
 import json
 
+import RPi.GPIO as GPIO
+
 import pygame
 import vlc
 
@@ -18,12 +20,21 @@ class Radio():
         pygame display."""
     def __init__(self):
         pygame.display.init()
-        self.screen = pygame.display.set_mode((320,240))
-        #
-        # self.screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
-        #
+        self.screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
         self.playlist = vlc.MediaList()
         self.player = vlc.MediaListPlayer()
+
+        # GPIO Set Up for Rotary Encoder and Switch
+        self.sw = 16 # 16 for Production Radio, 17 for Test Radio
+        self.clk = 6 # 6 for Production Radio, 23 for Test Radio
+        self.dt = 5 # 5 for Production Radio, 27 for Test Radio
+        self.on = 23
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(self.sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+        GPIO.setup(self.on, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         # find path to folder and change directory
         os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
@@ -67,15 +78,57 @@ class Radio():
 
         pygame.mouse.set_visible(False)
         self.draw_screen()
-
+        GPIO.add_event_detect(self.clk,
+                              GPIO.RISING,
+                              callback=self.rotation_decode,
+                              bouncetime=2)
         playing = True
         while playing:
             # Watch for keyboard and mouse events.
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     playing = False
+            current_station = self.check_events(current_station)
             time.sleep(.1)
 
+    def check_events(current_station):
+        # Will eventually be replaced with GPI Controls from Rotatry Encoder
+
+
+        if GPIO.input(self.sw) == False:
+            sys.exit()
+
+        if GPIO.input(self.on) == False:
+            self.player.stop()
+        
+        if self.station_list[current_station].logo.rect.centerx <= 120 or
+           self.station_list[current_station].logo.rect.centerx >= 200:
+            self.player.stop()
+            current_station = -1
+
+        if current_station == -1:
+            for station in station_list:
+                if station.logo.rect.centerx >= 120 and
+                   station.logo.rect.centerx <= 200:
+                    current_station = self.station_list.index(station)
+                    self.playStation(current_station)
+        return current_station
+
+    def rotation_decode(clk):
+        # read both of the switches
+        Switch_A = GPIO.input(self.clk)
+        Switch_B = GPIO.input(self.dt)
+
+        if (Switch_A == 1) and (Switch_B == 0) :
+            move_right()
+            self.draw_screen()
+            return
+        elif (Switch_A == 1) and (Switch_B == 1 ):
+            move_left()
+            self.draw_screen()
+            return
+        else:
+            return
 
     def move_right(self):
         for station in self.station_list:
