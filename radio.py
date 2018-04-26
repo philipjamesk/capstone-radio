@@ -91,7 +91,7 @@ class Radio():
             current_station = self.check_events(current_station)
             time.sleep(.1)
 
-    def check_events(current_station):
+    def check_events(self, current_station):
         # Will eventually be replaced with GPI Controls from Rotatry Encoder
 
 
