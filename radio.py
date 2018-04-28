@@ -91,10 +91,11 @@ class Radio():
                     playing = False
             current_station = self.check_events(current_station)
             sleep(.1)
+        self.player.stop()
+        pygame.quit()
 
     def check_events(self, current_station):
         if GPIO.input(self.sw) == 0:
-            print("Switch Pushed")
             self.playing = False
 
         if GPIO.input(self.on) == 0:
