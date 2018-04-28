@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 import subprocess
+from tkinter import *
+from tkinter import messagebox
+from tkinter import ttk
 from wifi import Cell, Scheme
 
 cells = Cell.all('wlan0')
@@ -29,5 +32,3 @@ else:
 
 wpa_supplicant = open('/etc/wpa_supplicant/wpa_supplicant.conf', 'a+')
 wpa_supplicant.write("\nnetwork={{\n\tssid=\"{}\"\n\tpsk=\"{}\"\n}}".format(cell.ssid, passkey))
-
-# subprocess.call('wpa_cli -i wlan0 reconfigure')

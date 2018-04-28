@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-from radio import Radio
+from radio_no_gpio import Radio
+
 from edit import Editor
 
-radio = Radio()
+while True:
+    editor = Editor()
+    print("Editor has closed you can do something else...")
 
-print("Radio closed you do something else ... ")
-
-editor = Editor()
-
-print("Editor has closed you can do something else...")
+    radio = Radio()
+    print("Radio closed you do something else ... ")
