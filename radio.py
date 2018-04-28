@@ -25,7 +25,7 @@ class Radio():
 
         # Set how much you want the rotary encoder to move the displayself
         self.MOVE = 10
-        
+
         # GPIO Set Up for Rotary Encoder and Switch
         self.sw = 16
         self.clk = 6
@@ -89,9 +89,9 @@ class Radio():
                               bouncetime=2)
         self.playing = True
         while self.playing:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    playing = False
+            # for event in pygame.event.get():
+            #     if event.type == pygame.QUIT:
+            #         playing = False
             current_station = self.check_events(current_station)
             sleep(.1)
         self.player.stop()
