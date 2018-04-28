@@ -35,7 +35,8 @@ class StationListFrame(Frame):
         # add canvas for station edit buttons for scrolling
         self.canvas=Canvas(self, highlightthickness=0)
         self.frame=Frame(self.canvas)
-        self.myscrollbar=Scrollbar(self,orient="vertical",command=self.canvas.yview)
+        self.myscrollbar=Scrollbar(self,orient="vertical",
+                                   command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.myscrollbar.set)
 
         self.myscrollbar.pack(side="right",fill="y")
@@ -43,14 +44,16 @@ class StationListFrame(Frame):
         self.canvas.create_window((0,0),window=self.frame,anchor='nw')
 
         def myfunction(event):
-            self.canvas.configure(scrollregion=self.canvas.bbox("all"),width=320,height=200)
+            self.canvas.configure(scrollregion=self.canvas.bbox("all"),
+                                  width=320,height=200)
 
         self.frame.bind("<Configure>",myfunction)
 
         for station in self.station_list:
             ttk.Button(self.frame,
                        text="Edit: " + station['name'],
-                       command=lambda index=self.station_list.index(station): self.edit_station(index),
+                       command=lambda index=self.station_list.index(station):
+                       self.edit_station(index),
                        width=30).pack()
 
         self.line = Frame(self, height=1, width=320, background="black")
@@ -81,7 +84,9 @@ class StationListFrame(Frame):
         pass
 
     def add_pressed(self):
-        self.station_list.append({ 'name' : '', 'address' : '', 'logo' : '' })
+        self.station_list.append({'name' : '',
+                                  'address' : '',
+                                  'logo' : ''})
         self.list_is_saved = False
         self.pack_forget()
         StationEditFrame(self.root, -1, self.station_list)
@@ -100,8 +105,9 @@ class StationListFrame(Frame):
         if self.list_is_saved:
             self.editor_quit()
         else:
-            self.savewarning = messagebox.askyesnocancel("Save Station List?",
-                               "Press 'Yes' to Save & 'No' to Quit without Saving.")
+            self.savewarning = messagebox.askyesnocancel(
+                    "Save Station List?",
+                    "Press 'Yes' to Save & 'No' to Quit without Saving.")
             if self.savewarning:
                 self.save_pressed()
                 self.editor_quit()
@@ -109,7 +115,7 @@ class StationListFrame(Frame):
                 self.editor_quit()
 
     def editor_quit(self):
-        self.root.quit()
+        self.root.destroy()
 
 class StationEditFrame(Frame):
     def __init__(self, root, index, station_list):
@@ -150,10 +156,12 @@ class StationEditFrame(Frame):
 
         save_button = ttk.Button(bottom_row,
                       text="Save",
-                      command=lambda index=self.index: self.save_station(index))
+                      command=lambda index=self.index:
+                                self.save_station(index))
         delete_button = ttk.Button(bottom_row,
                         text="Delete Station",
-                        command=lambda index=self.index: self.delete_station(index))
+                        command=lambda index=self.index:
+                                self.delete_station(index))
         cancel_button = ttk.Button(bottom_row,
                         text="Cancel",
                         command=self.station_exit)
