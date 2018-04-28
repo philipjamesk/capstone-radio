@@ -98,15 +98,18 @@ class StationListFrame(Frame):
     def quit_pressed(self):
         # Check is the list has been saved since being edited
         if self.list_is_saved:
-            self.root.quit()
+            self.editor_quit()
         else:
             self.savewarning = messagebox.askyesnocancel("Save Station List?",
                                "Press 'Yes' to Save & 'No' to Quit without Saving.")
             if self.savewarning:
                 self.save_pressed()
-                self.root.quit()
+                self.editor_quit()
             elif self.savewarning == False:
-                self.root.quit()
+                self.editor_quit()
+
+    def editor_quit(self):
+        self.root.quit()
 
 class StationEditFrame(Frame):
     def __init__(self, root, index, station_list):
