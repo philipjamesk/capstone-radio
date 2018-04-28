@@ -93,7 +93,6 @@ class Radio():
             sleep(.1)
 
     def check_events(self, current_station):
-        print(GPIO.input(self.sw))
         if GPIO.input(self.sw) == 0:
             self.playing = False
 
