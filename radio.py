@@ -2,7 +2,7 @@
 
 import sys
 import os
-import time
+from time import sleep
 import pickle
 import json
 import RPi.GPIO as GPIO
@@ -12,7 +12,6 @@ import vlc
 
 from station import Station
 from logo import Logo
-
 
 class Radio():
     """
@@ -42,7 +41,7 @@ class Radio():
         # unpickle last saved playing station otherwise play index 0
         try:
             current_station = pickle.load(open("current_station.pickle", "rb"))
-        except:
+        except FileNotFoundError:
             current_station = 0
 
         # import station list from JSON file
@@ -91,7 +90,7 @@ class Radio():
                 if event.type == pygame.QUIT:
                     playing = False
             current_station = self.check_events(current_station)
-            time.sleep(.1)
+            sleep(.1)
 
     def check_events(self, current_station):
         print(GPIO.input(self.sw))
@@ -184,6 +183,7 @@ class Radio():
 
 def main():
     radio = Radio()
+
 
 if __name__ == '__main__':
     main()
