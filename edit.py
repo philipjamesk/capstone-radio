@@ -104,9 +104,9 @@ class StationListFrame(Frame):
                                "Press 'Yes' to Save & 'No' to Quit without Saving.")
             if self.savewarning:
                 self.save_pressed()
-                sys.exit()
+                self.root.quit()
             elif self.savewarning == False:
-                sys.exit()
+                self.root.quit()
 
 class StationEditFrame(Frame):
     def __init__(self, root, index, station_list):
