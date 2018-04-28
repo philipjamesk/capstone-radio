@@ -5,7 +5,6 @@ import os
 import time
 import pickle
 import json
-
 import RPi.GPIO as GPIO
 
 import pygame
@@ -16,18 +15,19 @@ from logo import Logo
 
 
 class Radio():
-    """Creates a Radio class, this will contain the vlc player and the
-        pygame display."""
+    """
+        Radio class contains the vlc player and the pygame display.
+    """
     def __init__(self):
         pygame.display.init()
-        self.screen = pygame.display.set_mode((320,240), pygame.FULLSCREEN)
+        self.screen = pygame.display.set_mode((320, 240), pygame.FULLSCREEN)
         self.playlist = vlc.MediaList()
         self.player = vlc.MediaListPlayer()
 
         # GPIO Set Up for Rotary Encoder and Switch
-        self.sw = 16 # 16 for Production Radio, 17 for Test Radio
-        self.clk = 6 # 6 for Production Radio, 23 for Test Radio
-        self.dt = 5 # 5 for Production Radio, 27 for Test Radio
+        self.sw = 16  # 16 for Production Radio, 17 for Test Radio
+        self.clk = 6  # 6 for Production Radio, 23 for Test Radio
+        self.dt = 5  # 5 for Production Radio, 27 for Test Radio
         self.on = 23
 
         GPIO.setmode(GPIO.BCM)
@@ -41,7 +41,7 @@ class Radio():
 
         # unpickle last saved playing station otherwise play index 0
         try:
-            current_station = pickle.load(open("current_station.pickle", "rb" ))
+            current_station = pickle.load(open("current_station.pickle", "rb"))
         except:
             current_station = 0
 
@@ -56,7 +56,10 @@ class Radio():
         # load stations into station list
         self.station_list = []
         for item in self.data:
-            station = Station(item['address'], item['logo'], self.screen, item['name'])
+            station = Station(item['address'],
+                              item['logo'],
+                              self.screen,
+                              item['name'])
             self.station_list.append(station)
             if self.station_list.index(station) == current_station:
                 station.is_playing = True
@@ -84,7 +87,6 @@ class Radio():
                               bouncetime=2)
         playing = True
         while playing:
-            # Watch for keyboard and mouse events.
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     playing = False
@@ -92,22 +94,21 @@ class Radio():
             time.sleep(.1)
 
     def check_events(self, current_station):
-        # Will eventually be replaced with GPI Controls from Rotatry Encoder
-
-
-        if GPIO.input(self.sw) == False:
+        if GPIO.input(self.sw) is False:
             sys.exit()
 
-        if GPIO.input(self.on) == False:
+        if GPIO.input(self.on) is False:
             self.player.stop()
 
-        if self.station_list[current_station].logo.rect.centerx <= 120 or self.station_list[current_station].logo.rect.centerx >= 200:
+        if self.station_list[current_station].logo.rect.centerx <= 120 or \
+           self.station_list[current_station].logo.rect.centerx >= 200:
             self.player.stop()
             current_station = -1
 
         if current_station == -1:
             for station in self.station_list:
-                if station.logo.rect.centerx >= 120 and station.logo.rect.centerx <= 200:
+                if station.logo.rect.centerx >= 120 and \
+                   station.logo.rect.centerx <= 200:
                     current_station = self.station_list.index(station)
                     self.playStation(current_station)
         return current_station
@@ -117,11 +118,11 @@ class Radio():
         Switch_A = GPIO.input(self.clk)
         Switch_B = GPIO.input(self.dt)
 
-        if (Switch_A == 1) and (Switch_B == 0) :
+        if (Switch_A == 1) and (Switch_B == 0):
             self.move_right()
             self.draw_screen()
             return
-        elif (Switch_A == 1) and (Switch_B == 1 ):
+        elif (Switch_A == 1) and (Switch_B == 1):
             self.move_left()
             self.draw_screen()
             return
@@ -148,6 +149,7 @@ class Radio():
         bg_color = (232, 222, 199)
         self.screen.fill(bg_color)
         screen_rect = self.screen.get_rect()
+
         # Add the rest to the display
         dial_marks = pygame.image.load('img/display/radio-marks.png')
         red_line = pygame.image.load('img/display/red-line.png')
@@ -157,6 +159,7 @@ class Radio():
         dial_marks_rect.centery = screen_rect.centery
         red_line_rect.centerx = screen_rect.centerx
         red_line_rect.centery = screen_rect.centery
+
         # Add station logos to screen
         for station in self.station_list:
             station.logo.blitme()
@@ -174,7 +177,7 @@ class Radio():
 
     # Pickle the current station
     def pickleStation(self, current_station):
-        pickle.dump(current_station, open( "current_station.pickle", "wb" ))
+        pickle.dump(current_station, open("current_station.pickle", "wb"))
 
 
 def main():
