@@ -9,3 +9,4 @@ while True:
     radio = Radio()
     print(radio)
     del radio
+    print(radio)
