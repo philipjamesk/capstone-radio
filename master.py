@@ -7,4 +7,5 @@ while True:
     editor = Editor()
     print("\n***\n*\n* Making a new Radio object\n*\n***\n")
     radio = Radio()
+    print(radio)
     del radio
