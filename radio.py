@@ -94,11 +94,11 @@ class Radio():
 
     def check_events(self, current_station):
         if GPIO.input(self.sw) == 0:
+            print("Switch Pushed")
             self.playing = False
 
         if GPIO.input(self.on) == 0:
             self.player.stop()
-        # elif GPIO.input(self.on) is True and
 
         if self.station_list[current_station].logo.rect.centerx <= 120 or \
            self.station_list[current_station].logo.rect.centerx >= 200:
