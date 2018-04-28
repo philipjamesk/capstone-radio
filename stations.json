@@ -1,27 +1,47 @@
 [
     {
-        "name" : "KCRW Ecletic 24",
-        "address" : "http://media.kcrw.com/pls/kcrwmusic.pls",
-        "logo" : "img/logos/eclectic24_logo.png"
+        "address": "http://media.kcrw.com/pls/kcrwmusic.pls",
+        "logo": "img/logos/eclectic24_logo.png",
+        "name": "KCRW Ecletic 24"
     },
     {
-        "name" : "triple j",
-        "address" : "http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls",
-        "logo" : "img/logos/triplej_logo.png"
+        "address": "http://www.abc.net.au/res/streaming/audio/mp3/triplej.pls",
+        "logo": "img/logos/triplej_logo.png",
+        "name": "triple j"
     },
     {
-        "name" : "WUMB",
-        "address" : "http://www.wumb.org/listenlive/links/wumbfast.pls",
-        "logo" : "img/logos/wumb_logo.png"
+        "address": "http://www.wumb.org/listenlive/links/wumbfast.pls",
+        "logo": "img/logos/wumb_logo.png",
+        "name": "WUMB 3.0"
     },
     {
-        "name" : "TSF Jazz",
-        "address" : "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.pls",
-        "logo" : "img/logos/tsfjazz_logo.png"
+        "address": "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.pls",
+        "logo": "img/logos/tsfjazz_logo.png",
+        "name": "TSF Jazz"
     },
     {
-        "name" : "Double J",
-        "address" : "http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls",
-        "logo" : "img/logos/doublej_logo.png"
+        "address": "http://www.abc.net.au/res/streaming/audio/mp3/dig_music.pls",
+        "logo": "img/logos/doublej_logo.png",
+        "name": "Double J"
+    },
+    {
+        "address": "http://www.radiofeeds.co.uk/bbc6music.pls",
+        "logo": "img/logos/bbc6_logo.png",
+        "name": "BBC Radio 69"
+    },
+    {
+        "address": "http://live-mp3-128.kexp.org:80/kexp128.mp3",
+        "logo": "img/logos/kexp_logo.png",
+        "name": "KEXP"
+    },
+    {
+        "address": "http://wfmu.org/wfmu_mp3.pls",
+        "logo": "img/logos/wfmu_logo.png",
+        "name": "WFMU"
+    },
+    {
+        "address": "http://audio.wgbh.org:8004",
+        "logo": "img/logos/wcrb_logo.png",
+        "name": "WCRB"
     }
 ]
