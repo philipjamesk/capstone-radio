@@ -24,7 +24,7 @@ class Radio():
         self.player = vlc.MediaListPlayer()
 
         # Set how much you want the rotary encoder to move the displayself
-        self.MOVE = 10
+        self.MOVE = 25
 
         # GPIO Set Up for Rotary Encoder and Switch
         self.sw = 16
@@ -101,6 +101,7 @@ class Radio():
             self.player.stop()
             pygame.quit()
             GPIO.cleanup()
+            return None
 
         if GPIO.input(self.on) == 0:
             self.player.stop()
