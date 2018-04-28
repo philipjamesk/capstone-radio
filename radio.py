@@ -93,6 +93,7 @@ class Radio():
             sleep(.1)
         self.player.stop()
         pygame.quit()
+        GPIO.cleanup()
 
     def check_events(self, current_station):
         if GPIO.input(self.sw) == 0:
