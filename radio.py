@@ -18,7 +18,7 @@ class Radio():
         Radio class contains the vlc player and the pygame display.
     """
     def __init__(self):
-        pygame.display.init()
+        pygame.init()
         self.screen = pygame.display.set_mode((320, 240))
 #        self.screen = pygame.display.set_mode((320, 240), pygame.FULLSCREEN)
         self.playlist = vlc.MediaList()
@@ -92,7 +92,7 @@ class Radio():
         while self.playing:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    playing = False
+                    sys.exit()
             current_station = self.check_events(current_station)
             sleep(.1)
 
@@ -102,6 +102,7 @@ class Radio():
             self.player.stop()
             pygame.quit()
             GPIO.cleanup()
+            del self.screen
             return None
 
         if GPIO.input(self.on) == 0:
