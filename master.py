@@ -5,4 +5,6 @@ from edit import Editor
 
 while True:
     editor = Editor()
+    del editor
     radio = Radio()
+    del radio

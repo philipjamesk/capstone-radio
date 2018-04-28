@@ -102,7 +102,6 @@ class Radio():
             self.player.stop()
             pygame.quit()
             GPIO.cleanup()
-            del self.screen
             return None
 
         if GPIO.input(self.on) == 0:
