@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from radio_no_gpio import Radio
+from radio import Radio
 
 from edit import Editor
 
