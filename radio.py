@@ -99,6 +99,7 @@ class Radio():
 
         if GPIO.input(self.on) is False:
             self.player.stop()
+        # elif GPIO.input(self.on) is True and     
 
         if self.station_list[current_station].logo.rect.centerx <= 120 or \
            self.station_list[current_station].logo.rect.centerx >= 200:
