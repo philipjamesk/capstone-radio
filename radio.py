@@ -25,9 +25,9 @@ class Radio():
         self.player = vlc.MediaListPlayer()
 
         # GPIO Set Up for Rotary Encoder and Switch
-        self.sw = 16  # 16 for Production Radio, 17 for Test Radio
-        self.clk = 6  # 6 for Production Radio, 23 for Test Radio
-        self.dt = 5  # 5 for Production Radio, 27 for Test Radio
+        self.sw = 16
+        self.clk = 6
+        self.dt = 5
         self.on = 23
 
         GPIO.setmode(GPIO.BCM)
@@ -85,8 +85,8 @@ class Radio():
                               GPIO.RISING,
                               callback=self.rotation_decode,
                               bouncetime=2)
-        playing = True
-        while playing:
+        self.playing = True
+        while self.playing:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     playing = False
@@ -94,12 +94,13 @@ class Radio():
             time.sleep(.1)
 
     def check_events(self, current_station):
+        print(GPIO.input(self.sw))
         if GPIO.input(self.sw) is False:
-            sys.exit()
+            self.playing = False
 
         if GPIO.input(self.on) is False:
             self.player.stop()
-        # elif GPIO.input(self.on) is True and     
+        # elif GPIO.input(self.on) is True and
 
         if self.station_list[current_station].logo.rect.centerx <= 120 or \
            self.station_list[current_station].logo.rect.centerx >= 200:
