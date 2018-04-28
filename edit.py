@@ -18,7 +18,7 @@ class Editor(object):
         os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
         # load the station list array from the JSON file
         self.station_list = json.loads(open("stations.json").read())
-        self.station_frame = StationListFrame(None, self.station_list)
+        self.station_frame = StationListFrame(self.root, self.station_list)
         self.root.mainloop()
 
 
@@ -98,7 +98,7 @@ class StationListFrame(Frame):
     def quit_pressed(self):
         # Check is the list has been saved since being edited
         if self.list_is_saved:
-            sys.exit()
+            self.root.quit()
         else:
             self.savewarning = messagebox.askyesnocancel("Save Station List?",
                                "Press 'Yes' to Save & 'No' to Quit without Saving.")
