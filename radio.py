@@ -23,6 +23,9 @@ class Radio():
         self.playlist = vlc.MediaList()
         self.player = vlc.MediaListPlayer()
 
+        # Set how much you want the rotary encoder to move the displayself
+        self.MOVE = 10
+        
         # GPIO Set Up for Rotary Encoder and Switch
         self.sw = 16
         self.clk = 6
@@ -133,11 +136,11 @@ class Radio():
 
     def move_right(self):
         for station in self.station_list:
-            station.logo.changex(25)
+            station.logo.changex(self.MOVE)
 
     def move_left(self):
         for station in self.station_list:
-            station.logo.changex(-25)
+            station.logo.changex(-self.MOVE)
 
     def place_logos(self, current_station):
         """Initially places the logos based on the current_station."""
