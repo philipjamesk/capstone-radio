@@ -6,10 +6,6 @@ This is the python code for my Raspberry Pi internet radio that I am building fo
 * vlc
 * python-vlc
 * pygame
-* wxPython
 
 ### TODO
-* master class launches radio and edit_list
-* check address to valid web address
-* station_list.py should relaunch radio.py
-* file picker for adding logo
+* check for wifi on radio launch
