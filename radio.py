@@ -19,8 +19,8 @@ class Radio():
     """
     def __init__(self):
         pygame.display.init()
-        self.screen = pygame.display.set_mode((320, 240))
-#        self.screen = pygame.display.set_mode((320, 240), pygame.FULLSCREEN)
+        # self.screen = pygame.display.set_mode((320, 240))
+        self.screen = pygame.display.set_mode((320, 240), pygame.FULLSCREEN)
         self.playlist = vlc.MediaList()
         self.player = vlc.MediaListPlayer()
 
