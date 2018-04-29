@@ -8,4 +8,7 @@ This is the python code for my Raspberry Pi internet radio that I am building fo
 * pygame
 
 ### TODO
-* check for wifi on radio launch
+* check for internet on radio launch
+* "power" button should quit / launch radio script
+* run all scripts through PEP8 check
+* write out set-up instructions
