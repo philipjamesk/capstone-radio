@@ -1,8 +1,8 @@
 [Desktop Entry]
 Version=1.0
 Name=Shutdown
-Exec=/home/pi/Scripts/shutdown.sh
-Icon=/home/pi/Scripts/images/shutdown.png
+Exec=/home/pi/Documents/capstone-radio/Scripts/shutdown.sh
+Icon=/home/pi/Documents/capstone-radio/Scripts/images/shutdown.png
 Terminal=true
 Type=Application
 Categories=Development

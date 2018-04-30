@@ -1,8 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Name=Radio
+Name=Play Radio
 Exec=/home/pi/Documents/capstone-radio/radio.py
 Icon=/home/pi/Documents/capstone-radio/Scripts/images/radio.png
 Terminal=true
 Type=Application
 Categories=Development
+Name[en_GB]=Play Radio

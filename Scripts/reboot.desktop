@@ -1,9 +1,9 @@
 [Desktop Entry]
 Version=1.0
-Name=Shutdown
-Exec=/home/pi/Documents/capstone-radio/Scripts/shutdown.sh
-Icon=/home/pi/Documents/capstone-radio/Scripts/images/shutdown.png
+Name=Reboot
+Exec=/home/pi/Documents/capstone-radio/Scripts/reboot.sh
+Icon=/home/pi/Documents/capstone-radio/Scripts/images/reboot.png
 Terminal=true
 Type=Application
 Categories=Development
-Name[en_GB]=Shutdown
+Name[en_GB]=Reboot
