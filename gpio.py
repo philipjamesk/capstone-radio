@@ -30,8 +30,6 @@ GPIO.output(lcd, GPIO.LOW)
 GPIO.output(red, GPIO.LOW)
 GPIO.output(green, GPIO.HIGH)
 
-# find path to folder and change directory
-os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
 
 try:
     while True:
@@ -42,7 +40,7 @@ try:
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
                 GPIO.output(amp, GPIO.HIGH)
-                subprocess.Popen(["python3","radio.py"])
+                subprocess.Popen(["/home/pi/Documents/capstone-radio/gpio.py"])
             else:
                 GPIO.output(green, GPIO.HIGH)
                 GPIO.output(red, GPIO.LOW)
