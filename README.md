@@ -9,7 +9,8 @@ This is the python code for my Raspberry Pi internet radio that I am building fo
 
 ### TODO
 * check for internet on radio launch
-* "power" button should quit / launch radio script
+* "power" button should quit / launch radio script - DONE
+* split GPIO into setup and then while loop that runs after the gui starts
 * run all scripts through PEP8 check
 * write out set-up instructions
 

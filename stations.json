@@ -12,7 +12,7 @@
     {
         "address": "http://www.wumb.org/listenlive/links/wumbfast.pls",
         "logo": "img/logos/wumb_logo.png",
-        "name": "WUMB 3.0"
+        "name": "WUMB"
     },
     {
         "address": "http://statslive.infomaniak.ch/playlist/tsfjazz/tsfjazz-high.mp3/playlist.pls",
@@ -27,7 +27,7 @@
     {
         "address": "http://www.radiofeeds.co.uk/bbc6music.pls",
         "logo": "img/logos/bbc6_logo.png",
-        "name": "BBC Radio 69"
+        "name": "BBC Radio 6"
     },
     {
         "address": "http://live-mp3-128.kexp.org:80/kexp128.mp3",
