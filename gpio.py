@@ -15,6 +15,7 @@ on = 23
 lcd = 18
 red = 19
 green = 20
+blue = 21
 
 GPIO.setup(on, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
@@ -22,13 +23,21 @@ GPIO.setup(amp, GPIO.OUT)
 GPIO.setup(lcd, GPIO.OUT)
 GPIO.setup(red, GPIO.OUT)
 GPIO.setup(green, GPIO.OUT)
+GPIO.setup(blue, GPIO.OUT)
 
 # Assume button is off to start and set all outputs accordingly
 last_state = 0
 GPIO.output(amp, GPIO.LOW)
 GPIO.output(lcd, GPIO.LOW)
+GPIO.output(red, GPIO.HIGH)
+GPIO.output(green, GPIO.HIGH)
+GPIO.output(blue, GPIO.LOW)
+
+sleep(5)
+
 GPIO.output(red, GPIO.LOW)
 GPIO.output(green, GPIO.HIGH)
+GPIO.output(blue, GPIO.HIGH)
 
 
 try:
