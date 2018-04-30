@@ -97,16 +97,13 @@ class Radio():
             sleep(.1)
 
     def check_events(self, current_station):
-        if GPIO.input(self.sw) == 0:
+        if GPIO.input(self.sw) == 0 or GPIO.input(self.on) == 0:
             self.playing = False
             self.player.stop()
             pygame.display.quit()
             GPIO.cleanup()
             return None
-
-        if GPIO.input(self.on) == 0:
-            self.player.stop()
-
+            
         if self.station_list[current_station].logo.rect.centerx <= 120 or \
            self.station_list[current_station].logo.rect.centerx >= 200:
             self.player.stop()
