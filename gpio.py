@@ -40,7 +40,7 @@ try:
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
                 GPIO.output(amp, GPIO.HIGH)
-                subprocess.Popen(["/home/pi/Documents/capstone-radio/radio.py"])
+                subprocess.Popen(["python3","/home/pi/Documents/capstone-radio/radio.py"])
             else:
                 GPIO.output(green, GPIO.HIGH)
                 GPIO.output(red, GPIO.LOW)
