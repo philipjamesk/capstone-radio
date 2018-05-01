@@ -7,6 +7,7 @@ from time import sleep
 
 import RPi.GPIO as GPIO
 
+from splashscreen import SplashScreen
 
 GPIO.setmode(GPIO.BCM)
 
@@ -39,6 +40,7 @@ GPIO.output(red, GPIO.LOW)
 GPIO.output(green, GPIO.HIGH)
 GPIO.output(blue, GPIO.HIGH)
 
+splashscreen = SplashScreen()
 
 try:
     while True:

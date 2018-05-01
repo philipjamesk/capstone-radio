@@ -5,7 +5,6 @@ import os
 import socket
 import subprocess
 from time import sleep
-import json
 
 from tkinter import *
 from tkinter import messagebox
@@ -21,15 +20,20 @@ class SplashScreen(object):
         img = PhotoImage(file = "img/pi_radio_splash.gif")
         label = Label(image = img)
         label.pack()
-        label.after(3000, self.self_destruct)
+        label.after(3000, lambda label=label: self.self_destruct(label))
         self.root.mainloop()
 
-    def self_destruct(self):
+    def self_destruct(self, label):
         if (self.is_connected()):
             subprocess.Popen(["python3",
                         "/home/pi/Documents/capstone-radio/radio.py"])
         else:
-            messagebox.showwarning("No Network", "Please connect to the internet.")
+            img2 = PhotoImage(file = "img/custom.gif")
+            label.configure(image=img2)
+            label.image = img2
+            sleep(3)
+            messagebox.showwarning("No Network",
+                                   "Please\nconnect\nto\nthe\ninternet.")
         sys.exit()
 
     def is_connected(self):
@@ -47,5 +51,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-    import socket
