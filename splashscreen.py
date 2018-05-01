@@ -18,7 +18,7 @@ class SplashScreen(object):
         self.root.attributes("-fullscreen", True)
         # find path to folder and change directory
         os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
-        img = PhotoImage(file = "pi_radio_splash.gif")
+        img = PhotoImage(file = "img/pi_radio_splash.gif")
         label = Label(image = img)
         label.pack()
         label.after(3000, self.self_destruct)
