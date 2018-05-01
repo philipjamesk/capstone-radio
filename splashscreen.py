@@ -30,7 +30,7 @@ class SplashScreen(object):
                         "/home/pi/Documents/capstone-radio/radio.py"])
         else:
             messagebox.showwarning("No Network", "Please connect to the internet.")
-            sys.exit()
+        sys.exit()
 
     def is_connected(self):
         try:
