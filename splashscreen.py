@@ -3,7 +3,7 @@
 import sys
 import os
 import socket
-from subprocess import call
+import subprocess
 from time import sleep
 import json
 
