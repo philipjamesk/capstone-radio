@@ -2,6 +2,7 @@
 
 import sys
 import os
+import socket
 from subprocess import call
 from time import sleep
 import json
@@ -24,9 +25,22 @@ class SplashScreen(object):
         self.root.mainloop()
 
     def self_destruct(self):
-        messagebox.showwarning("No Network", "You do not appear to be connected to the internet.")
-        print("Kablamo")
-        sys.exit()
+        if (is_connected()):
+            subprocess.Popen(["python3",
+                        "/home/pi/Documents/capstone-radio/radio.py"])
+        else:
+            messagebox.showwarning("No Network", "Please connect to the internet.")
+            sys.exit()
+
+    def is_connected(self):
+        try:
+            # connect to the host -- tells us if the host is actually
+            # reachable
+            socket.create_connection(("www.google.com", 80))
+            return True
+        except OSError:
+            pass
+        return False
 
 def main():
     splash_screen = SplashScreen()
@@ -34,3 +48,4 @@ def main():
 if __name__ == '__main__':
     main()
 
+    import socket
