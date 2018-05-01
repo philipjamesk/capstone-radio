@@ -25,7 +25,7 @@ class SplashScreen(object):
         self.root.mainloop()
 
     def self_destruct(self):
-        if (is_connected()):
+        if (self.is_connected()):
             subprocess.Popen(["python3",
                         "/home/pi/Documents/capstone-radio/radio.py"])
         else:
