@@ -30,7 +30,8 @@ class SplashScreen(object):
         else:
             messagebox.showwarning("No Network",
                                    "Please  connect\nto the internet.")
-        sys.exit()
+
+        self.root.destroy()
 
     def is_connected(self):
         try:
@@ -44,3 +45,7 @@ class SplashScreen(object):
 
 def main():
     splash_screen = SplashScreen()
+
+
+if __name__ == '__main__':
+    main()
