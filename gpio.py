@@ -4,10 +4,12 @@ import os
 import sys
 import subprocess
 from time import sleep
+from tkinter import *
+from tkinter import messagebox
 
 import RPi.GPIO as GPIO
 
-from splashscreen import SplashScreen
+import quick_check
 
 GPIO.setmode(GPIO.BCM)
 
@@ -40,8 +42,6 @@ GPIO.output(red, GPIO.LOW)
 GPIO.output(green, GPIO.HIGH)
 GPIO.output(blue, GPIO.HIGH)
 
-first_time_through = True
-
 try:
     while True:
         current_state = (GPIO.input(on))
@@ -50,16 +50,17 @@ try:
                 GPIO.output(green, GPIO.LOW)
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
-
-                if first_time_through:
-                    splashscreen = SplashScreen()
-
-                GPIO.output(amp, GPIO.HIGH)
-
-                radio = subprocess.Popen(["python3",
-                        "/home/pi/Documents/capstone-radio/radio.py"])
+                ### quick quick_check
+                if quick_check.is_connected():
+                    GPIO.output(amp, GPIO.HIGH)
+                    radio = subprocess.Popen(["python3",
+                            "/home/pi/Documents/capstone-radio/radio.py"])
+                else:
+                    root = Tk()
+                    messagebox.showwarning("No Network",
+                               "Please  connect\nto the internet.")
+                    root.destroy()
                 sleep(1)
-                first_time_through = False
             else:
                 GPIO.output(green, GPIO.HIGH)
                 GPIO.output(red, GPIO.LOW)
