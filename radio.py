@@ -12,6 +12,7 @@ import vlc
 
 from station import Station
 from logo import Logo
+from splashscreen import SplashScreen
 
 class Radio():
     """
@@ -103,7 +104,7 @@ class Radio():
             pygame.display.quit()
             GPIO.cleanup()
             return None
-            
+
         if self.station_list[current_station].logo.rect.centerx <= 120 or \
            self.station_list[current_station].logo.rect.centerx >= 200:
             self.player.stop()

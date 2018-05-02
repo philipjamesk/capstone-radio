@@ -40,19 +40,23 @@ GPIO.output(red, GPIO.LOW)
 GPIO.output(green, GPIO.HIGH)
 GPIO.output(blue, GPIO.HIGH)
 
-splashscreen = SplashScreen()
+first_time_through = True
 
 try:
     while True:
         current_state = (GPIO.input(on))
         if current_state is not last_state:
             if (current_state):
+                if first_time_through:
+                    splashscreen = SplashScreen()
                 GPIO.output(green, GPIO.LOW)
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
                 GPIO.output(amp, GPIO.HIGH)
                 subprocess.Popen(["python3",
                             "/home/pi/Documents/capstone-radio/radio.py"])
+                sleep(1)
+                first_time_through = False
             else:
                 GPIO.output(green, GPIO.HIGH)
                 GPIO.output(red, GPIO.LOW)
