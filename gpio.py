@@ -53,8 +53,8 @@ try:
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
                 GPIO.output(amp, GPIO.HIGH)
-                subprocess.Popen(["python3",
-                            "/home/pi/Documents/capstone-radio/radio.py"])
+                radio = subprocess.Popen(["python3",
+                        "/home/pi/Documents/capstone-radio/radio.py"])
                 sleep(1)
                 first_time_through = False
             else:
@@ -62,6 +62,9 @@ try:
                 GPIO.output(red, GPIO.LOW)
                 GPIO.output(lcd, GPIO.LOW)
                 GPIO.output(amp, GPIO.LOW)
+                if radio:
+                    radio.kill()
+                    radio = None
             last_state = current_state
         sleep(0.1)
 

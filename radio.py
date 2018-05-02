@@ -32,13 +32,11 @@ class Radio():
         self.sw = 16
         self.clk = 6
         self.dt = 5
-        self.on = 23
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
         GPIO.setup(self.dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.on, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
         # find path to folder and change directory
         os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
@@ -98,7 +96,7 @@ class Radio():
             sleep(.1)
 
     def check_events(self, current_station):
-        if GPIO.input(self.sw) == 0 or GPIO.input(self.on) == 0:
+        if GPIO.input(self.sw) == 0:
             self.playing = False
             self.player.stop()
             pygame.display.quit()
