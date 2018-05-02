@@ -59,7 +59,7 @@ try:
                     radio.kill()
                     radio = None
             last_state = current_state
-        sleep(0.1)
+        sleep(0.05)
 
 finally:
     GPIO.output(lcd, GPIO.LOW)
