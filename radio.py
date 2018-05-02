@@ -96,7 +96,7 @@ class Radio():
                     if event.type == pygame.QUIT:
                         sys.exit()
                 current_station = self.check_events(current_station)
-                sleep(0.05)
+                sleep(0.1)
         else:
             root = Tk()
             root.attributes("-fullscreen", True)
