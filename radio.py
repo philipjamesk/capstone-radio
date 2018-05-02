@@ -6,94 +6,104 @@ from time import sleep
 import pickle
 import json
 import RPi.GPIO as GPIO
+from tkinter import *
+from tkinter import messagebox
 
 import pygame
 import vlc
 
 from station import Station
 from logo import Logo
-from splashscreen import SplashScreen
+import quick_check
 
 class Radio():
     """
         Radio class contains the vlc player and the pygame display.
     """
     def __init__(self):
-        pygame.display.init()
-        # self.screen = pygame.display.set_mode((320, 240))
-        self.screen = pygame.display.set_mode((320, 240), pygame.FULLSCREEN)
-        self.playlist = vlc.MediaList()
-        self.player = vlc.MediaListPlayer()
+        if quick_check.is_connected():
+            pygame.display.init()
+            # self.screen = pygame.display.set_mode((320, 240))
+            self.screen = pygame.display.set_mode((320, 240), pygame.FULLSCREEN)
+            self.playlist = vlc.MediaList()
+            self.player = vlc.MediaListPlayer()
 
-        # Set how much you want the rotary encoder to move the displayself
-        self.MOVE = 25
+            # Set how much you want the rotary encoder to move the displayself
+            self.MOVE = 25
 
-        # GPIO Set Up for Rotary Encoder and Switch
-        self.sw = 16
-        self.clk = 6
-        self.dt = 5
+            # GPIO Set Up for Rotary Encoder and Switch
+            self.sw = 16
+            self.clk = 6
+            self.dt = 5
 
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.setup(self.dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setmode(GPIO.BCM)
+            GPIO.setup(self.sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-        # find path to folder and change directory
-        os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
+            # find path to folder and change directory
+            os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
 
-        # unpickle last saved playing station otherwise play index 0
-        try:
-            current_station = pickle.load(open("current_station.pickle", "rb"))
-        except FileNotFoundError:
-            current_station = 0
+            # unpickle last saved playing station otherwise play index 0
+            try:
+                current_station = pickle.load(open("current_station.pickle", "rb"))
+            except FileNotFoundError:
+                current_station = 0
 
-        # import station list from JSON file
-        self.json_data = open("stations.json").read()
-        self.data = json.loads(self.json_data)
+            # import station list from JSON file
+            self.json_data = open("stations.json").read()
+            self.data = json.loads(self.json_data)
 
-        # double check that the current_station is still in the station list
-        if current_station >= len(self.data):
-            current_station = 0
+            # double check that the current_station is still in the station list
+            if current_station >= len(self.data):
+                current_station = 0
 
-        # load stations into station list
-        self.station_list = []
-        for item in self.data:
-            station = Station(item['address'],
-                              item['logo'],
-                              self.screen,
-                              item['name'])
-            self.station_list.append(station)
-            if self.station_list.index(station) == current_station:
-                station.is_playing = True
+            # load stations into station list
+            self.station_list = []
+            for item in self.data:
+                station = Station(item['address'],
+                                  item['logo'],
+                                  self.screen,
+                                  item['name'])
+                self.station_list.append(station)
+                if self.station_list.index(station) == current_station:
+                    station.is_playing = True
 
-        # add stations to MediaList
-        for station in self.station_list:
-            self.playlist.add_media(station.address)
+            # add stations to MediaList
+            for station in self.station_list:
+                self.playlist.add_media(station.address)
 
-        # Set player MediaList
-        self.player.set_media_list(self.playlist)
+            # Set player MediaList
+            self.player.set_media_list(self.playlist)
 
-        # Place logos according to initial playing station
-        self.place_logos(current_station)
+            # Place logos according to initial playing station
+            self.place_logos(current_station)
 
-        # play current station
-        for station in self.station_list:
-            if station.is_playing:
-                self.playStation(self.station_list.index(station))
+            # play current station
+            for station in self.station_list:
+                if station.is_playing:
+                    self.playStation(self.station_list.index(station))
 
-        pygame.mouse.set_visible(False)
-        self.draw_screen()
-        GPIO.add_event_detect(self.clk,
-                              GPIO.RISING,
-                              callback=self.rotation_decode,
-                              bouncetime=2)
-        self.playing = True
-        while self.playing:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-            current_station = self.check_events(current_station)
-            sleep(.1)
+            pygame.mouse.set_visible(False)
+            self.draw_screen()
+            GPIO.add_event_detect(self.clk,
+                                  GPIO.RISING,
+                                  callback=self.rotation_decode,
+                                  bouncetime=2)
+            self.playing = True
+            while self.playing:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        sys.exit()
+                current_station = self.check_events(current_station)
+                sleep(.1)
+        else:
+            root = Tk()
+            root.attributes("-fullscreen", True)
+            messagebox.showwarning("No Network",
+                       "Please  connect\nto the internet.")
+            root.destroy()
+
 
     def check_events(self, current_station):
         if GPIO.input(self.sw) == 0:

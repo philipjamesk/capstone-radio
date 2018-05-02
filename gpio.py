@@ -4,12 +4,9 @@ import os
 import sys
 import subprocess
 from time import sleep
-from tkinter import *
-from tkinter import messagebox
 
 import RPi.GPIO as GPIO
 
-import quick_check
 
 GPIO.setmode(GPIO.BCM)
 
@@ -50,17 +47,10 @@ try:
                 GPIO.output(green, GPIO.LOW)
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
-                ### quick quick_check
-                if quick_check.is_connected():
-                    GPIO.output(amp, GPIO.HIGH)
-                    radio = subprocess.Popen(["python3",
-                            "/home/pi/Documents/capstone-radio/radio.py"])
-                else:
-                    root = Tk()
-                    messagebox.showwarning("No Network",
-                               "Please  connect\nto the internet.")
-                    root.destroy()
-                sleep(1)
+                GPIO.output(amp, GPIO.HIGH)
+                radio = subprocess.Popen(["python3",
+                        "/home/pi/Documents/capstone-radio/radio.py"])
+                # sleep(1)
             else:
                 GPIO.output(green, GPIO.HIGH)
                 GPIO.output(red, GPIO.LOW)
