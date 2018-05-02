@@ -47,12 +47,15 @@ try:
         current_state = (GPIO.input(on))
         if current_state is not last_state:
             if (current_state):
-                if first_time_through:
-                    splashscreen = SplashScreen()
                 GPIO.output(green, GPIO.LOW)
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
+
+                if first_time_through:
+                    splashscreen = SplashScreen()
+
                 GPIO.output(amp, GPIO.HIGH)
+
                 radio = subprocess.Popen(["python3",
                         "/home/pi/Documents/capstone-radio/radio.py"])
                 sleep(1)
