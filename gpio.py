@@ -50,7 +50,6 @@ try:
                 GPIO.output(amp, GPIO.HIGH)
                 radio = subprocess.Popen(["python3",
                         "/home/pi/Documents/capstone-radio/radio.py"])
-                # sleep(1)
             else:
                 GPIO.output(green, GPIO.HIGH)
                 GPIO.output(red, GPIO.LOW)
