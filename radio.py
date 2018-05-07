@@ -31,15 +31,17 @@ class Radio():
             # Set how much you want the rotary encoder to move the displayself
             self.MOVE = 25
 
-            # GPIO Set Up for Rotary Encoder and Switch
+            # GPIO Set Up for Rotary Encoder, Switch, & Off Button
             self.sw = 16
             self.clk = 6
             self.dt = 5
+            self.off = 22
 
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(self.sw, GPIO.IN, pull_up_down=GPIO.PUD_UP)
             GPIO.setup(self.clk, GPIO.IN, pull_up_down=GPIO.PUD_UP)
             GPIO.setup(self.dt, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+            GPIO.setup(self.off, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
             # find path to folder and change directory
             os.chdir(os.path.dirname(os.path.realpath(sys.argv[0])))
@@ -106,7 +108,8 @@ class Radio():
 
 
     def check_events(self, current_station):
-        if GPIO.input(self.sw) == 0:
+        # exit radio if the sw is pushed or if the power button is set to off
+        if GPIO.input(self.sw) == 0 or GPIO.input(self.off) == 1:
             self.playing = False
             self.player.stop()
             pygame.display.quit()

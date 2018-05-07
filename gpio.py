@@ -33,6 +33,7 @@ GPIO.output(red, GPIO.HIGH)
 GPIO.output(green, GPIO.HIGH)
 GPIO.output(blue, GPIO.LOW)
 
+# This delay is to give the WiFi time to connect to known networks
 sleep(5)
 
 GPIO.output(red, GPIO.LOW)
@@ -48,16 +49,13 @@ try:
                 GPIO.output(red, GPIO.HIGH)
                 GPIO.output(lcd, GPIO.HIGH)
                 GPIO.output(amp, GPIO.HIGH)
-                radio = subprocess.Popen(["python3",
-                        "/home/pi/Documents/capstone-radio/radio.py"])
+                subprocess.Popen(["python3",
+                           "/home/pi/Documents/capstone-radio/radio.py"])
             else:
                 GPIO.output(green, GPIO.HIGH)
                 GPIO.output(red, GPIO.LOW)
                 GPIO.output(lcd, GPIO.LOW)
                 GPIO.output(amp, GPIO.LOW)
-                if radio:
-                    radio.kill()
-                    radio = None
             last_state = current_state
         sleep(0.1)
 
