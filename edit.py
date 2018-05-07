@@ -10,6 +10,7 @@ from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
 
+
 class Editor(object):
     def __init__(self):
         self.root = Tk()
@@ -33,21 +34,21 @@ class StationListFrame(Frame):
         self.list_is_saved = False
 
         # add canvas for station edit buttons for scrolling
-        self.canvas=Canvas(self, highlightthickness=0)
-        self.frame=Frame(self.canvas)
-        self.myscrollbar=Scrollbar(self,orient="vertical",
-                                   command=self.canvas.yview)
+        self.canvas = Canvas(self, highlightthickness=0)
+        self.frame = Frame(self.canvas)
+        self.myscrollbar = Scrollbar(self, orient="vertical",
+                                     command=self.canvas.yview)
         self.canvas.configure(yscrollcommand=self.myscrollbar.set)
 
-        self.myscrollbar.pack(side="right",fill="y")
+        self.myscrollbar.pack(side="right", fill="y")
         self.canvas.pack()
-        self.canvas.create_window((0,0),window=self.frame,anchor='nw')
+        self.canvas.create_window((0, 0), window=self.frame, anchor='nw')
 
         def myfunction(event):
             self.canvas.configure(scrollregion=self.canvas.bbox("all"),
-                                  width=320,height=200)
+                                  width=320, height=200)
 
-        self.frame.bind("<Configure>",myfunction)
+        self.frame.bind("<Configure>", myfunction)
 
         for station in self.station_list:
             ttk.Button(self.frame,
@@ -62,17 +63,15 @@ class StationListFrame(Frame):
         self.bottomrow = Frame(self, pady=5)
         self.bottomrow.pack()
 
-
-
         self.save_button = ttk.Button(self.bottomrow,
-                           text="Save",
-                           command=self.save_pressed)
+                                      text="Save",
+                                      command=self.save_pressed)
         self.add_button = ttk.Button(self.bottomrow,
-                          text="Add Station",
-                          command=self.add_pressed)
+                                     text="Add Station",
+                                     command=self.add_pressed)
         self.quit_button = ttk.Button(self.bottomrow,
-                           command=self.quit_pressed,
-                           text="Quit")
+                                      command=self.quit_pressed,
+                                      text="Quit")
         self.save_button.pack(side=LEFT)
         self.add_button.pack(side=LEFT)
         self.quit_button.pack(side=LEFT)
@@ -84,9 +83,9 @@ class StationListFrame(Frame):
         pass
 
     def add_pressed(self):
-        self.station_list.append({'name' : '',
-                                  'address' : '',
-                                  'logo' : ''})
+        self.station_list.append({'name': '',
+                                  'address': '',
+                                  'logo': ''})
         self.list_is_saved = False
         self.pack_forget()
         StationEditFrame(self.root, -1, self.station_list)
@@ -111,11 +110,12 @@ class StationListFrame(Frame):
             if self.savewarning:
                 self.save_pressed()
                 self.editor_quit()
-            elif self.savewarning == False:
+            elif self.savewarning is False:
                 self.editor_quit()
 
     def editor_quit(self):
         self.root.destroy()
+
 
 class StationEditFrame(Frame):
     def __init__(self, root, index, station_list):
@@ -148,28 +148,27 @@ class StationEditFrame(Frame):
         logo_label.pack(fill=X)
         self.logo_entry.pack(fill=X)
 
-        line = Frame(self, height=2, width=320,background="black")
+        line = Frame(self, height=2, width=320, background="black")
         line.pack(fill=BOTH, pady=10)
 
         bottom_row = ttk.Frame(self)
         bottom_row.pack(side=BOTTOM, fill=BOTH, pady=10)
 
         save_button = ttk.Button(bottom_row,
-                      text="Save",
-                      command=lambda index=self.index:
-                                self.save_station(index))
+                                 text="Save",
+                                 command=lambda index=self.index:
+                                 self.save_station(index))
         delete_button = ttk.Button(bottom_row,
-                        text="Delete Station",
-                        command=lambda index=self.index:
-                                self.delete_station(index))
+                                   text="Delete Station",
+                                   command=lambda index=self.index:
+                                   self.delete_station(index))
         cancel_button = ttk.Button(bottom_row,
-                        text="Cancel",
-                        command=self.station_exit)
+                                   text="Cancel",
+                                   command=self.station_exit)
 
         save_button.pack(side=LEFT)
         delete_button.pack(side=LEFT)
         cancel_button.pack(side=LEFT)
-
 
     def save_station(self, index):
         self.station_list[index]['name'] = self.name_entry.get()
@@ -185,8 +184,10 @@ class StationEditFrame(Frame):
         self.destroy()
         StationListFrame(self.root, self.station_list)
 
+
 def main():
     editor = Editor()
+
 
 if __name__ == '__main__':
     main()

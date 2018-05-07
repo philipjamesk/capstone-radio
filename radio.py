@@ -16,6 +16,7 @@ from station import Station
 from logo import Logo
 import quick_check
 
+
 class Radio():
     """
         Radio class contains the vlc player and the pygame display.
@@ -24,7 +25,8 @@ class Radio():
         if quick_check.is_connected():
             pygame.display.init()
             # self.screen = pygame.display.set_mode((320, 240))
-            self.screen = pygame.display.set_mode((320, 240), pygame.FULLSCREEN)
+            self.screen = pygame.display.set_mode((320, 240),
+                                                  pygame.FULLSCREEN)
             self.playlist = vlc.MediaList()
             self.player = vlc.MediaListPlayer()
 
@@ -48,7 +50,8 @@ class Radio():
 
             # unpickle last saved playing station otherwise play index 0
             try:
-                current_station = pickle.load(open("current_station.pickle", "rb"))
+                current_station = pickle.load(open("current_station.pickle",
+                                                   "rb"))
             except FileNotFoundError:
                 current_station = 0
 
@@ -56,7 +59,7 @@ class Radio():
             self.json_data = open("stations.json").read()
             self.data = json.loads(self.json_data)
 
-            # double check that the current_station is still in the station list
+            # check that the current_station is still in the station list
             if current_station >= len(self.data):
                 current_station = 0
 
@@ -103,9 +106,8 @@ class Radio():
             root = Tk()
             root.attributes("-fullscreen", True)
             messagebox.showwarning("No Network",
-                       "Please  connect\nto the internet.")
+                                   "Please  connect\nto the internet.")
             root.destroy()
-
 
     def check_events(self, current_station):
         # exit radio if the sw is pushed or if the power button is set to off

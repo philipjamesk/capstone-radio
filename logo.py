@@ -1,5 +1,6 @@
 import pygame
 
+
 class Logo(object):
     def __init__(self, screen, image, name):
         """Create a logo for each radio station on the display."""
@@ -9,7 +10,7 @@ class Logo(object):
         try:
             self.image = pygame.image.load(image)
         # If the image doesn't load, create a logo from the name
-        except:
+        except Exception:
             self.image = self.make_image(name)
 
         self.image = pygame.transform.scale(self.image, (80, 80))
@@ -51,8 +52,10 @@ class Logo(object):
         width = text.get_width() + 10
         temp_logo = pygame.Surface((width, width))
 
-        pygame.draw.rect(temp_logo, (255, 255, 255), (0,0,width,width), 0)
-        temp_logo.blit(text, (width/2 - text.get_width() // 2, width/2 - text.get_height() // 2))
+        pygame.draw.rect(temp_logo, (255, 255, 255), (0, 0, width, width), 0)
+        temp_logo.blit(text,
+                       (width/2 - text.get_width() // 2,
+                        width/2 - text.get_height() // 2))
 
         pygame.font.quit()
         return temp_logo

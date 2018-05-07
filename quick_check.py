@@ -1,5 +1,6 @@
 import socket
 
+
 def is_connected():
     try:
         # connect to the host -- tells us if the host is actually
@@ -9,5 +10,3 @@ def is_connected():
     except OSError:
         pass
     return False
-
-print(is_connected())
