@@ -22,6 +22,7 @@ class Radio():
         Radio class contains the vlc player and the pygame display.
     """
     def __init__(self):
+        """create a new radio"""
         if quick_check.is_connected():
             pygame.display.init()
             # self.screen = pygame.display.set_mode((320, 240))
@@ -110,6 +111,7 @@ class Radio():
             root.destroy()
 
     def check_events(self, current_station):
+        """Listen for GPIO events and update radio accordingly"""
         # exit radio if the sw is pushed or if the power button is set to off
         if GPIO.input(self.sw) == 0 or GPIO.input(self.off) == 1:
             self.playing = False
@@ -132,6 +134,7 @@ class Radio():
         return current_station
 
     def rotation_decode(self, clk):
+        """Decode changes to rotary encoder"""
         # read both of the switches
         Switch_A = GPIO.input(self.clk)
         Switch_B = GPIO.input(self.dt)
@@ -148,10 +151,12 @@ class Radio():
             return
 
     def move_right(self):
+        """Move station logos to the right"""
         for station in self.station_list:
             station.logo.changex(self.MOVE)
 
     def move_left(self):
+        """Move station logos to the left"""
         for station in self.station_list:
             station.logo.changex(-self.MOVE)
 
@@ -163,6 +168,10 @@ class Radio():
             x += 100
 
     def draw_screen(self):
+        """
+        Redraw the screen with logos in their new locations and
+        add dial dial_marks and red line.
+        """
         # Set the background color
         bg_color = (232, 222, 199)
         self.screen.fill(bg_color)
@@ -190,11 +199,13 @@ class Radio():
 
     # Play a stream
     def playStation(self, station):
+        """Play selected station"""
         self.player.play_item_at_index(station)
         self.pickleStation(station)
 
     # Pickle the current station
     def pickleStation(self, current_station):
+        """Pickle the currently playing station for next radio instance"""
         pickle.dump(current_station, open("current_station.pickle", "wb"))
 
 
