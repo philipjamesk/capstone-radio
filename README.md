@@ -19,9 +19,9 @@ Because of I am unsure of the copyright/trademark rules around having radio stat
 ### Documentation
 * [Complete Build Instructions]()
 * [Materials List](https://www.dropbox.com/s/aaf3xo1s0xls849/Internet%20Radio%20Materials%20List.pdf?dl=0)
-* [Quick Start Guide]()
+* [Quick Start Guide](https://www.dropbox.com/s/amaljafzru1tkb2/Quick%20Start%20Guide.pdf?dl=0)
 * [Wiring Diagram PDF](https://www.dropbox.com/s/rwks9siodu6bhx9/Wiring%20Guide.pdf?dl=0) / [Fritzing File](https://www.dropbox.com/s/abadza8a3womwhc/Pi%20Radio%20Final.fzz?dl=0)
-* [Code Directory]()
+* [Code Directory](https://www.dropbox.com/s/339qc1y6k4h71l9/Code%20Directory.pdf?dl=0)
 * [Original Capstone Proposal](https://www.dropbox.com/s/m6t09fdssgndxjf/Kelnhofer%20Capstone%20Proposal%20Final%20Draft.pdf?dl=0)
 * [Capstone Blog](http://capstone.philipkelnhofer.com)
 
