@@ -106,7 +106,7 @@ class StationListFrame(Frame):
         else:
             self.savewarning = messagebox.askyesnocancel(
                     "Save Station List?",
-                    "Press 'Yes' to Save & 'No' to Quit without Saving.")
+                    "Press 'Yes' to Save & \n'No' to Quit without Saving.")
             if self.savewarning:
                 self.save_pressed()
                 self.editor_quit()
