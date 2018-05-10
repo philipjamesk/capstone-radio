@@ -12,6 +12,10 @@ from tkinter import ttk
 
 
 class Editor(object):
+    """
+    The Editor object is the root Tk() object used for both
+    the StationListFrame, and the StationEditFrame
+    """
     def __init__(self):
         self.root = Tk()
         self.root.attributes("-fullscreen", True)
@@ -24,6 +28,7 @@ class Editor(object):
 
 
 class StationListFrame(Frame):
+    """Presents a list of stations for editing."""
     def __init__(self, root, station_list):
         Frame.__init__(self, root)
         self.pack()
@@ -77,12 +82,14 @@ class StationListFrame(Frame):
         self.quit_button.pack(side=LEFT)
 
     def edit_station(self, index):
+        """Select a station to edit; launch StationEditFrame"""
         self.pack_forget()
         self.destroy()
         StationEditFrame(self.root, index, self.station_list)
         pass
 
     def add_pressed(self):
+        """Create empty entry in station list; launch StationEditFrame"""
         self.station_list.append({'name': '',
                                   'address': '',
                                   'logo': ''})
@@ -91,6 +98,7 @@ class StationListFrame(Frame):
         StationEditFrame(self.root, -1, self.station_list)
 
     def save_pressed(self):
+        """Save the station list to json file"""
         with open('stations.json', 'w') as outfile:
             json.dump(self.station_list,
                       outfile,
@@ -100,7 +108,7 @@ class StationListFrame(Frame):
         self.list_is_saved = True
 
     def quit_pressed(self):
-        # Check is the list has been saved since being edited
+        """Check is list has been saved; pop-up warning if not."""
         if self.list_is_saved:
             self.editor_quit()
         else:
@@ -114,10 +122,12 @@ class StationListFrame(Frame):
                 self.editor_quit()
 
     def editor_quit(self):
+        """Close editor window"""
         self.root.destroy()
 
 
 class StationEditFrame(Frame):
+    """Present station for editing fields"""
     def __init__(self, root, index, station_list):
         Frame.__init__(self, root)
         self.configure(width=320, height=240)
@@ -171,16 +181,19 @@ class StationEditFrame(Frame):
         cancel_button.pack(side=LEFT)
 
     def save_station(self, index):
+        """Save station to array; exit"""
         self.station_list[index]['name'] = self.name_entry.get()
         self.station_list[index]['address'] = self.address_entry.get()
         self.station_list[index]['logo'] = self.logo_entry.get()
         self.station_exit()
 
     def delete_station(self, index):
+        """Delete station from array; exit"""
         self.station_list.pop(index)
         self.station_exit()
 
     def station_exit(self):
+        """Close StationEditFrame; Open StationListFrame"""
         self.destroy()
         StationListFrame(self.root, self.station_list)
 
