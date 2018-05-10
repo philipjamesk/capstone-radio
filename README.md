@@ -2,11 +2,8 @@
 
 This is the python code for my Raspberry Pi internet radio that I am building for as the project for DGMD E-599 at Harvard Extension School.
 
-## TO DO
-* Link Complete Build
-
 ### Documentation
-* [Complete Build Instructions]()
+* [Complete Build Instructions](https://www.dropbox.com/s/ln58siqt9zwuk0x/Full%20Build%20Instructions.pdf?dl=0)
 * [Materials List](https://www.dropbox.com/s/aaf3xo1s0xls849/Internet%20Radio%20Materials%20List.pdf?dl=0)
 * [Quick Start Guide](https://www.dropbox.com/s/amaljafzru1tkb2/Quick%20Start%20Guide.pdf?dl=0)
 * [Wiring Diagram PDF](https://www.dropbox.com/s/rwks9siodu6bhx9/Wiring%20Guide.pdf?dl=0) / [Fritzing File](https://www.dropbox.com/s/abadza8a3womwhc/Pi%20Radio%20Final.fzz?dl=0)
@@ -17,10 +14,11 @@ This is the python code for my Raspberry Pi internet radio that I am building fo
 ### Required
 * vlc
 * python-vlc
-* pygame
+* pygame (should be pre-installed on Raspberry Pi)
+* Tkinter (should be pre-installed on Raspberry Pi)
 
 ### NOTICE
-Because of I am unsure of the copyright/trademark rules around having radio station logos as part of the source code for this project they have been removed from the repository. The code assumes they are stored in a folder called `img/logos/` if a logo is missing or otherwise unavailable, the logo.py class will dynamically create an image using the name of the station stored in the stations.json file. 
+Because of I am unsure of the copyright/trademark rules around having radio station logos as part of the source code for this project they have been removed from the repository. The code assumes they are stored in a folder called `img/logos/` if a logo is missing or otherwise unavailable, the logo.py class will dynamically create an image using the name of the station stored in the stations.json file.
 
 ### Credits
 radio.png made by [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect "Pixel perfect") from [www.flaticon.com](https://www.flaticon.com/ "Flaticon") is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/ "Creative Commons BY 3.0")
