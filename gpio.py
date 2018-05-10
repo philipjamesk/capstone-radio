@@ -12,7 +12,7 @@ GPIO.setmode(GPIO.BCM)
 
 amp = 12
 on = 23
-lcd = 18
+lcd = 18  # GPIO18 is connected to the PiTFT backlight by default
 red = 19
 green = 20
 blue = 21

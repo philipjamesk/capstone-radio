@@ -4,7 +4,6 @@ This is the python code for my Raspberry Pi internet radio that I am building fo
 
 ## TODO
 * Link Complete Build
-* Link Quick Start Guide
 * Link Code Directory
 
 
