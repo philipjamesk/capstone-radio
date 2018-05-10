@@ -31,6 +31,8 @@ class Radio():
             self.playlist = vlc.MediaList()
             self.player = vlc.MediaListPlayer()
 
+            vlc.libvlc_audio_output_set(self.player, 'alsa')
+
             # Set how much you want the rotary encoder to move the displayself
             self.MOVE = 25
 
